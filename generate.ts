@@ -4,8 +4,10 @@ import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 
 const PASSAGE = '2025-06-busan-10th-Q24-open-to-interpretation';
-const PROMPTS_DIR = path.join('passages', PASSAGE, 'prompts/pages');
-const IMAGES_DIR = path.join('passages', PASSAGE, 'images/pages');
+const PASSAGE_DIR = path.join('passages', PASSAGE);
+const PROMPTS_DIR = path.join(PASSAGE_DIR, 'prompts/pages');
+const IMAGES_DIR = path.join(PASSAGE_DIR, 'images/pages');
+const GLOBAL_STYLE_PATH = path.join(PASSAGE_DIR, 'prompts/_global_style.md');
 const MODEL = process.env.GEMINI_IMAGE_MODEL ?? 'gemini-3-pro-image-preview';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -51,7 +53,29 @@ async function readPagePrompt(pageId: string): Promise<PagePrompt> {
   return parseFrontmatter(await fs.readFile(filePath, 'utf-8'));
 }
 
-async function generatePage(pageId: string): Promise<void> {
+function buildPromptText(
+  pageBody: string,
+  refs: string[],
+  globalStyle: string,
+): string {
+  const refPreamble =
+    refs.length === 0
+      ? ''
+      : `═══════════════════════════════════════════
+REFERENCE IMAGES (attached in order before this prompt): ${refs.join(', ')}
+═══════════════════════════════════════════
+Use these as visual anchors. Match characters' likeness, scene composition,
+lighting, narration plate / speech bubble / vocab clip styling, lettering,
+and overall book vibe EXACTLY as established in these refs. The page prompt
+below adds the new beat (action, expression, text content) on top of the
+established visual world.
+
+`;
+
+  return `${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
+}
+
+async function generatePage(pageId: string, globalStyle: string): Promise<void> {
   const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
   const { refs, body } = await readPagePrompt(pageId);
 
@@ -73,7 +97,7 @@ async function generatePage(pageId: string): Promise<void> {
       inlineData: { mimeType: 'image/png', data: buf.toString('base64') },
     });
   }
-  parts.push({ text: body });
+  parts.push({ text: buildPromptText(body, refs, globalStyle) });
 
   console.log(
     `[${pageId}] generating  (refs: ${refs.length === 0 ? 'none' : refs.join(', ')})`,
@@ -117,6 +141,8 @@ async function listPageIds(): Promise<string[]> {
 async function main(): Promise<void> {
   await fs.mkdir(IMAGES_DIR, { recursive: true });
 
+  const globalStyle = await fs.readFile(GLOBAL_STYLE_PATH, 'utf-8');
+
   const args = process.argv.slice(2);
   const force = args.includes('--force');
   const explicit = args.filter((a) => !a.startsWith('--'));
@@ -136,7 +162,7 @@ async function main(): Promise<void> {
       continue;
     }
 
-    await generatePage(pageId);
+    await generatePage(pageId, globalStyle);
   }
 }
 
