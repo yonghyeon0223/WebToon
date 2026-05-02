@@ -2,7 +2,7 @@ import type { Buffer } from 'node:buffer';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { NotFoundError, StorageError } from '../errors.js';
+import { NotFoundError, StorageError } from '../shared/errors.js';
 
 export interface StorageWriteResult {
   /** The key as provided by the caller (passage-relative). */

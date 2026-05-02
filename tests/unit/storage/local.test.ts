@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { NotFoundError, StorageError } from '../../../src/errors.js';
+import { NotFoundError, StorageError } from '../../../src/shared/errors.js';
 import { LocalStorageService } from '../../../src/storage/local.js';
 import { createTempDir, type TempDir } from '../../helpers/temp.js';
 

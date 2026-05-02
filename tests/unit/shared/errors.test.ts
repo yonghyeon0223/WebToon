@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ConfigError, NotFoundError, StorageError, WebToonError } from '../../src/errors.js';
+import { ConfigError, NotFoundError, StorageError, WebToonError } from '../../../src/shared/errors.js';
 
 describe('WebToonError', () => {
   describe('normal cases', () => {

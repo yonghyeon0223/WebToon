@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createInvocationLogger, createLogger, newInvocationId } from '../../src/logger.js';
+import { createInvocationLogger, createLogger, newInvocationId } from '../../../src/shared/logger.js';
 
 /**
  * Capture pino output by providing a synchronous destination.

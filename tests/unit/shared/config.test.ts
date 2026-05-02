@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ConfigError } from '../../src/errors.js';
-import { loadConfig } from '../../src/config.js';
+import { ConfigError } from '../../../src/shared/errors.js';
+import { loadConfig } from '../../../src/shared/config.js';
 
 const validEnv = (): NodeJS.ProcessEnv => ({
   GEMINI_API_KEY: 'fake-key',
