@@ -26,7 +26,31 @@ TEXT RENDERING
 - Narration → cream parchment plate with painterly imperfect edges, sepia-
   brown hand-lettered Korean (NOT system font), subtle drop shadow.
 - Dialogue → round speech bubble with hand-drawn wobbly outline, soft white
-  interior, tail to speaker's mouth.
+  interior, tail clearly attached to speaker's mouth.
+
+- Sizing rule (CRITICAL): both narration plates and speech bubbles are
+  sized GENEROUSLY around their text — comfortable internal padding
+  (roughly 12-18% of text dimensions on each side). Text NEVER touches or
+  crowds the edges of the plate / bubble. Bubble visual weight should be
+  comparable to narration plate visual weight in the same scene; do NOT
+  shrink dialogue bubbles smaller than the plates.
+
+- Letter spacing (CRITICAL): consistent, even Korean tracking matching
+  natural Korean picture-book typography. Same letter spacing in narration
+  plates AND speech bubbles — they should look like the same lettering
+  hand applied throughout. Never cramped, never artificially expanded,
+  never inconsistent line-to-line.
+
+- Line breaks (CRITICAL): Korean text wraps at natural phrase / clause
+  boundaries. Do NOT split:
+    · set adverbial phrases (e.g. "차근차근", "어김없이", "한 번")
+    · compound words
+    · a particle from its noun (e.g. "하늘은", "사람도")
+    · a predicate from its preceding clause when it would dangle
+  Prefer breaks at commas, sentence boundaries, or major clause joints.
+  If text doesn't fit naturally, make the plate / bubble larger rather
+  than forcing an awkward break.
+
 - All Korean text in plain warm sepia-brown. NO character-color tinting on
   Korean phrases.
 - Color emphasis ONLY for:
