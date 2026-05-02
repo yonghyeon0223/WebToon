@@ -11,7 +11,8 @@ const ARCHIVE_DIR = path.join(IMAGES_DIR, '_archive');
 const GLOBAL_STYLE_PATH = path.join(PASSAGE_DIR, 'prompts/_global_style.md');
 
 const MODEL_ALIASES: Record<string, string> = {
-  flash: 'gemini-2.5-flash-image-preview',
+  flash: 'gemini-2.5-flash-image',
+  flash2: 'gemini-3.1-flash-image-preview',
   pro: 'gemini-3-pro-image-preview',
 };
 const DEFAULT_MODEL = 'gemini-3-pro-image-preview';

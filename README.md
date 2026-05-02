@@ -33,7 +33,8 @@ Range flags take priority over positional page IDs when both are given.
 Default is **Pro** (`gemini-3-pro-image-preview`). Switch tier per run with `--model`:
 
 ```bash
-npm run generate -- --model=flash         # Nano Banana (gemini-2.5-flash-image-preview)
+npm run generate -- --model=flash         # Nano Banana (gemini-2.5-flash-image)
+npm run generate -- --model=flash2        # Nano Banana 2 (gemini-3.1-flash-image-preview)
 npm run generate -- --model=pro           # Nano Banana Pro (default)
 npm run generate -- --model=<full-id>     # any model id passes through verbatim
 ```
