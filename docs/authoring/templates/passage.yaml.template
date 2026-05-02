@@ -12,14 +12,12 @@ source:
   topic: {{kebab-case-topic}}          # short topic slug
 
 # Story-level info — informational, not authoritative
+# Pages are flat-numbered (p01..pNN) regardless of how many narrative chapters
+# the story has. Chapter divisions (if any) live in story.md, not the file system.
 story:
-  chapters: {{N}}
   characters: {{N}}
   locations: {{N}}
-  pages:
-    ch1: {{N}}
-    ch2: {{N}}
-    total: {{N}}
+  pages: {{total}}
 
 # Pipeline status — informational; .state.json is the source of truth
 status: planning                       # planning | in_progress | completed

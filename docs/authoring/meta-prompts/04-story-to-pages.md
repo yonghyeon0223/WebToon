@@ -1,6 +1,6 @@
 # Meta-prompt 04 — Story → Page Prompts
 
-Once your story, character cards, and location cards are all finalized, use this prompt to generate one page prompt per page in each chapter. Save each output as `passages/{id}/prompts/pages/chN/pNN.md`.
+Once your story, character cards, and location cards are all finalized, use this prompt to generate one page prompt per scene in the story. Save each output as `passages/{id}/prompts/pages/pNN.md` — pages are flat-numbered (no chapter subdirs), even if the story has multiple chapters / acts / scenes in `story.md`.
 
 ---
 
@@ -23,9 +23,13 @@ home interior with sofa, TV, mirror, shadowy corner"}}
 
 YOUR TASK
 
-For EACH chapter, decide a reasonable number of pages (typically 12–20 per
-chapter — a page corresponds to one story beat or scene). For each page,
-produce ONE page prompt following the template at
+Read the entire story and decide a reasonable number of pages — a page
+corresponds to one story beat or scene. Typical book length: 20–40 pages total.
+Pages are sequential and flat-numbered (p01, p02, ..., pNN); ignore the
+story's chapter divisions for FILE numbering (you may still note in each
+page's "Page intent" which chapter/scene/act it belongs to in the narrative).
+
+For each page, produce ONE page prompt following the template at
 `docs/authoring/templates/page-prompt.template.md`.
 
 VISUAL STYLE — non-negotiable
@@ -62,10 +66,10 @@ PER-PAGE OUTPUT FORMAT
 
 For each page, produce a markdown file with:
 
-# Ch{{N}} P{{NN}} — {{Page Title}}
+# P{{NN}} — {{Page Title}}
 
 > **첨부 reference images**: {{character_id}}.png, {{location_id}}.png
-> **저장 경로**: images/pages/ch{{N}}/p{{NN}}.png
+> **저장 경로**: images/pages/p{{NN}}.png
 
 ## Prompt — Gemini에 그대로 복붙
 \`\`\`
@@ -117,8 +121,10 @@ page. Pull text from the story.md prose, condensing to fit the page if needed
 
 NUMBERING
 
-Pages are zero-padded: p01, p02, ..., p14, p15. Chapters are ch1, ch2.
-Page IDs in references are written as `ch1/p01`, `ch1/p02`, etc.
+Pages are zero-padded sequential: p01, p02, ..., p14, p15, ..., pNN.
+Page IDs in references are written as just `p01`, `p02`, etc. — no chapter
+prefix. The story's narrative chapter divisions live in `story.md`, not in
+the file system.
 
 ITERATE
 

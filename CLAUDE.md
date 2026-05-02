@@ -99,14 +99,12 @@ passages/
         NN_name.md
       locations/
         NN_name.md
-      pages/
-        chN/
+      pages/        # flat — no chapter subdirs
           pNN.md
     images/             # Generated outputs (when StorageService is local)
       characters/
       locations/
-      pages/
-        chN/
+      pages/        # flat — no chapter subdirs
     .state.json         # Generation state (auto-managed)
 tests/
   unit/                 # Mirrors src/ structure
@@ -471,7 +469,7 @@ Sprint docs are the journal (what happened in this sprint). Living docs are the 
 - Type aliases / interfaces: `PascalCase`
 - Passage IDs: `{YYYY-MM}-{region}-{grade}-Q{NN}-{content-slug}` (e.g., `2025-06-busan-10th-Q24-open-to-interpretation`)
 - Resource IDs (characters / locations): `{NN}_{snake_name}` (e.g., `01_realistic`, `06_village_square`)
-- Page IDs: `chN/pNN` (e.g., `ch1/p01`, `ch2/p18`)
+- Page IDs: `pNN` flat-numbered (e.g., `p01`, `p32`) — narrative chapter division belongs to `story.md`, not the file system
 - Environment variables: `UPPER_SNAKE_CASE`, prefixed by category where helpful (e.g., `GEMINI_API_KEY`, `STORAGE_BACKEND`)
 
 ### Code Comments

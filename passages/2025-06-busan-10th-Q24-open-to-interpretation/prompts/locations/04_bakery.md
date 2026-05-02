@@ -1,7 +1,7 @@
 # The Bakery (빵집) — Location Reference Card
 
-> **저장 경로**: `images/locations/bakery.png`
-> **첨부 reference**: 없음 (이 자체가 reference 생성)
+> **저장 경로**: `images/locations/04_bakery.png`
+> **첨부 reference**: 없음
 
 ---
 
@@ -10,21 +10,21 @@
 ```
 PICTURE BOOK LOCATION REFERENCE CARD: PIXAR ANIMATION STUDIO QUALITY × CLASSIC ROGER HARGREAVES MR. MEN STYLE.
 
-Subject: village bakery exterior, EMPTY (NO characters anywhere), on a clean off-white background. Aspect ratio 9:16 vertical (mobile picture-book format).
+Subject: village bakery exterior, EMPTY (NO characters anywhere), on a clean off-white background. Aspect ratio 1:1 square.
 
 ═══════════════════════════════════════════
-STYLE: PIXAR × MR. MEN HYBRID
+STYLE — PIXAR × MR. MEN HYBRID
 ═══════════════════════════════════════════
 
-Render with PIXAR ANIMATION STUDIO QUALITY:
+Render as if PIXAR published a Mr. Men picture book:
 - Soft volumetric lighting (warm afternoon light hitting the building)
-- Real-feeling materials: striped fabric awning has soft cloth texture with hanging folds, large window glass shows subtle reflection, bread loaves in display have warm soft texture (warm crust feel — but still in flat-shape Mr. Men style), wooden door has paint texture and grain, stone foundation has stone material, cobblestone sidewalk has dimensional depth
+- Real-feeling materials: striped fabric awning with soft cloth texture and hanging folds, large window glass showing subtle reflection, bread loaves in display with warm soft texture (warm crust feel — but still in flat-shape Mr. Men style), wooden door with paint texture and grain, stone foundation with stone material, cobblestone sidewalk with dimensional depth
 - Warm window display glow (the bread looks inviting)
 - Soft ambient occlusion under awning, around door, beneath display
 - Atmospheric depth — the bakery feels warm and welcoming
 - Polished animation studio finish
 
-PRESERVE Mr. Men style identity:
+PRESERVE Mr. Men identity:
 - Bold hand-drawn outlines on architectural forms
 - Simple recognizable building shapes
 - Bread shapes are simple geometric ovals/rounds — Mr. Men silhouette logic
@@ -34,7 +34,7 @@ PRESERVE Mr. Men style identity:
 TEXT CONSTRAINT
 ═══════════════════════════════════════════
 
-The ONLY text: location label "The Bakery" at the very bottom. Shop sign, price tags — all BLANK. A simple BREAD-LOAF ICON on the sign is OK (NO letters).
+The ONLY text: location label "The Bakery" at the very bottom in warm sepia-brown hand-lettered picture-book typography. Shop sign, price tags — all BLANK. A simple BREAD-LOAF ICON on the sign is OK (NO letters).
 
 ═══════════════════════════════════════════
 CONCEPT
@@ -45,21 +45,14 @@ Village bakery owned by an anonymous warm-brown round Mr. Men baker. One half of
 VILLAGE PALETTE: warm golden beige (bakery body, slightly warmer than the cafe's brown), red/white awning (vivid contrast), warm brown door, soft bread-brown for loaves.
 
 ═══════════════════════════════════════════
-COMPOSITION (9:16 vertical)
+COMPOSITION (1:1 square)
 ═══════════════════════════════════════════
 
-Single tall vertical composition:
-- TOP THIRD: soft warm pale-blue sky with maybe 1-2 cloud puffs
-- MIDDLE PORTION: front face of the bakery dominates
-- BOTTOM PORTION: cobblestone sidewalk + small chalkboard easel + hint of flower shop on right edge
+Main view: front of the bakery from the cobblestone path.
 
-A SMALL DETAIL INSET in the upper-RIGHT corner: close-up of the bakery window display (oval bread-loaf shapes on wooden shelf — the iconic identifier).
+REQUIRED ELEMENTS:
 
-═══════════════════════════════════════════
-REQUIRED ELEMENTS
-═══════════════════════════════════════════
-
-1. **Building body** — warm golden beige rectangle (vertical proportions), bold outline, slightly warmer/yellower than cafe's brown.
+1. **Building body** — warm golden beige rectangle, bold outline, slightly warmer/yellower than cafe's brown.
 
 2. **Roof** — triangular, slightly darker golden brown.
 
@@ -79,13 +72,17 @@ REQUIRED ELEMENTS
 
 10. **Stone foundation** at base — flat stone-gray with hand-drawn block suggestions.
 
+11. **Sky** — soft warm pale-blue with maybe 1-2 cloud puffs.
+
+A SMALL DETAIL INSET in the upper-RIGHT corner: close-up of the bakery window display (oval bread-loaf shapes on wooden shelf — the iconic identifier).
+
 ═══════════════════════════════════════════
 LIGHTING
 ═══════════════════════════════════════════
 
 Warm afternoon sunlight bathing the building. Soft warm glow from the bread display in the window (suggesting freshly baked goods). Soft contact shadows. PIXAR cinematic warmth.
 
-LAYOUT: aspect ratio 9:16 vertical. Plain off-white background at edges. Location name "The Bakery" in friendly hand-lettered style at the very bottom.
+LAYOUT: aspect ratio 1:1 square. Plain off-white background visible at edges. Location name "The Bakery" in friendly hand-lettered picture-book typography at the very bottom.
 ```
 
 ## 핵심 디자인 원칙

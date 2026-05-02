@@ -13,13 +13,10 @@ source:
 
 # Story-level info — informational, not authoritative
 story:
-  chapters: 2
   characters: 6
   locations: 6
-  pages:
-    ch1: 14
-    ch2: 18
-    total: 32
+  pages: 32         # flat-numbered p01–p32; story.md may organize them into
+                    # narrative chapters but the file system is flat
 
 # Pipeline status — informational; .state.json is the source of truth
 status: in_progress

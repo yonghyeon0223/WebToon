@@ -1,7 +1,7 @@
 # Mr. Realistic's House (Exterior) — Location Reference Card
 
-> **저장 경로**: `images/locations/realistic_house.png`
-> **첨부 reference**: 없음 (이 자체가 reference 생성)
+> **저장 경로**: `images/locations/01_realistic_house.png`
+> **첨부 reference**: 없음 (이 카드 자체가 reference 생성)
 
 ---
 
@@ -10,61 +10,61 @@
 ```
 PICTURE BOOK LOCATION REFERENCE CARD: PIXAR ANIMATION STUDIO QUALITY × CLASSIC ROGER HARGREAVES MR. MEN STYLE.
 
-Subject: Mr. Realistic's house exterior, EMPTY (NO characters anywhere), on a clean off-white background with subtle warm gradient tint. Aspect ratio 9:16 vertical (mobile picture-book format).
+Subject: Mr. Realistic's house exterior, EMPTY (NO characters anywhere), on a clean off-white background with subtle warm gradient tint. Aspect ratio 1:1 square (universal reference format; will be referenced by 9:16 page generations).
 
 ═══════════════════════════════════════════
-STYLE: PIXAR × MR. MEN HYBRID
+STYLE — PIXAR × MR. MEN HYBRID
 ═══════════════════════════════════════════
 
-Render with PIXAR ANIMATION STUDIO QUALITY — like a still from a polished Pixar short film:
-- Soft volumetric lighting bathing the scene in warm afternoon glow
-- Real-feeling materials: wooden door has subtle paint texture and grain hint, brass door knocker has true metallic sheen with specular highlight, stone foundation has stone surface, cobblestone path has dimensional depth, roof has subtle shingled texture suggestion
+Render as if PIXAR published a Mr. Men picture book — illustrated medium with PIXAR craft (NOT a 3D animation still):
+- Soft volumetric afternoon lighting bathing the scene in warm glow
+- Real-feeling materials: wooden door with subtle paint texture and grain hint, brass door knocker with true metallic sheen and specular highlight, stone foundation with stone surface, cobblestone path with dimensional depth, roof with subtle shingled texture suggestion
 - Soft ambient occlusion under eaves, around door frame, beneath shrubs
 - Subtle atmospheric haze in the distance softening the neighboring houses
 - Warm cinematic color grading
-- Polished animation studio finish — casual but high quality
+- Polished animation studio finish — designed and intentional
 
-PRESERVE Mr. Men style identity:
+PRESERVE Mr. Men architectural simplicity:
 - Bold hand-drawn black outlines on architectural forms (preserved as stylistic touchstone, NOT razor-sharp 3D edges)
-- Simple geometric foundation shapes (rectangle body + triangular roof — instantly recognizable as Mr. Men style)
-- Charming hand-drawn quality on outlines
+- Simple geometric foundation shapes (rectangle body + triangular roof)
+- Charming hand-drawn quality
 
-NO razor-sharp CGI edges, NO photorealistic texture overload, NO cinematic atmospheric particles competing with the scene.
+AVOID: razor-sharp CGI edges, photorealistic texture overload, cinematic atmospheric particles competing with the scene, cluttered detail.
 
 ═══════════════════════════════════════════
 TEXT CONSTRAINT
 ═══════════════════════════════════════════
 
-Do NOT draw any words, labels, or annotations inside the image. The ONLY text allowed is the location label "Mr. Realistic's House" written once at the very bottom in friendly hand-lettered style. Hanging signs may show illustrated icons but NO letters.
+Do NOT draw any words inside the image. The ONLY text allowed is the location label "Mr. Realistic's House" written once at the very bottom in friendly hand-lettered picture-book typography (warm sepia-brown ink). Hanging signs may show illustrated icons but NO letters.
 
 ═══════════════════════════════════════════
-CONCEPT
+CONCEPT — protagonist's home
 ═══════════════════════════════════════════
 
-The protagonist's home. Mr. Realistic is the OBSERVER — magnifying glass is his signature. The house EXPRESSES this through architecture via the magnifying-glass motif appearing in MULTIPLE creative integrated ways throughout the design — NOT a tacked-on icon.
+Mr. Realistic is the OBSERVER (magnifying glass is his signature). The house EXPRESSES this through INTEGRATED ARCHITECTURAL DESIGN — the magnifying-glass motif appears in MULTIPLE creative woven-in ways throughout the design, NOT as a single tacked-on icon.
 
 ═══════════════════════════════════════════
-INTEGRATED MAGNIFYING-GLASS MOTIF (use ALL five)
+INTEGRATED MAGNIFYING-GLASS MOTIF (use ALL FIVE)
 ═══════════════════════════════════════════
 
 1. **CIRCULAR PORTHOLE WINDOW** on the second floor — perfectly round window in a wooden frame. A small curved wooden arm extends from one side suggesting a magnifying-glass handle. The window IS a giant magnifying glass embedded in the architecture (the cleverest visual joke).
 
-2. **BRASS DOOR KNOCKER** — a real sculptural piece of metalwork mounted on the front door: a brass disk (lens) with a curved brass arm (handle). Has true metallic sheen with PIXAR-style specular highlights and subtle cast shadow.
+2. **BRASS DOOR KNOCKER** on the front door — a real sculptural piece of metalwork: a brass disk (lens) with a curved brass arm (handle). True metallic sheen with PIXAR-style specular highlights and subtle cast shadow.
 
 3. **PEEPHOLE AS LENS** — a small round peephole at eye level on the door, framed with a thin brass rim. Looks like a tiny magnifying-glass lens.
 
 4. **WINDOW FRAME DECORATIVE CIRCLES** — the rectangular first-floor windows have wooden frames with small carved CIRCLE motifs in each corner (lens shape echoed in miniature).
 
-5. **HANGING WOODEN SIGN** by the door, dangling from a delicate wrought-iron bracket. Blank wooden plank with a beautifully painted illustrated magnifying glass icon (NO text — like a craft beer logo).
+5. **HANGING WOODEN SIGN** by the door, dangling from a delicate wrought-iron bracket. A blank wooden plank but with a beautifully painted illustrated magnifying glass icon (NO text — like a craft beer logo).
 
 ═══════════════════════════════════════════
 CHARACTERFUL ARCHITECTURE
 ═══════════════════════════════════════════
 
-- House body: TALL and SLIM proportions (matching Mr. Realistic's "observant standing tall" personality). Warm beige with subtle warm-tone variation — slightly warmer at top where afternoon sun catches, cooler at base. Flat color blocks but intentional tonal choice (NOT smooth gradient).
-- Roof: triangular with subtle shingled texture suggestion (a few thoughtful curved lines). Color: deep terracotta-clay (matches the door — color coordination).
+- House body: TALL and SLIM proportions (matches Mr. Realistic's "observant standing tall" personality). Warm beige with subtle warm-tone variation — slightly warmer at top where afternoon sun catches, cooler at base. Flat color blocks but intentional tonal choice.
+- Roof: triangular with thoughtful detail — a few suggestive curved lines hinting at SHINGLES. Color: deep terracotta-clay (matches the door — color coordinated).
 - Small SQUARE WINDOW IN THE GABLE TRIANGLE — Mr. Realistic's "lookout window."
-- Slim CHIMNEY on one side with a small puff of stylized smoke (one rounded cloud puff).
+- Slim CHIMNEY on one side of the roof with a small puff of stylized smoke.
 - STONE FOUNDATION at the base — flat stone-gray with hand-drawn stone block suggestions (3-4 stones visible).
 - DECORATIVE CORNICE TRIM under the roof line — thin band of wooden molding in slightly darker brown.
 
@@ -74,8 +74,8 @@ THE FRONT DOOR (focal piece)
 
 - Solid wooden door painted in deep terracotta-orange (Mr. Realistic's color)
 - Two horizontal wooden panel divisions (real door construction)
-- Brass magnifying-glass door knocker at chest height (item #2 above)
-- Brass-rimmed peephole at eye level (item #3 above)
+- Brass magnifying-glass door knocker at chest height
+- Brass-rimmed peephole at eye level
 - Thin brass kick-plate at the bottom
 - Door surrounded by a STONE ARCH (warm gray, simple but defined arch shape)
 
@@ -86,16 +86,16 @@ THOUGHTFUL LANDSCAPING
 - Neat front yard with flat sage-green grass with subtle PIXAR-style soft grass texture
 - Two trimmed shrubs flanking the front step (round dark-sage topiary forms)
 - One LOLLIPOP TREE with a slight characterful lean — sage green canopy, brown trunk
-- COBBLESTONE PATH from door to bottom of frame — drawn with HERRINGBONE OR FAN PATTERN (designed pattern, not random)
+- COBBLESTONE PATH from door to bottom of frame — drawn with HERRINGBONE OR FAN PATTERN
 - Worn rectangular STONE STEP (slightly rounded edges from use)
-- The hanging sign (item #5) on a delicate wrought-iron bracket beside door
+- The hanging sign on a delicate wrought-iron bracket beside door
 - A small WROUGHT-IRON LANTERN beside the door (delicate iron loop holding a small warm-yellow lantern with subtle glow)
 
 ═══════════════════════════════════════════
 NEIGHBORING HOUSES (with character)
 ═══════════════════════════════════════════
 
-- LEFT EDGE: dusty pink neighbor house, partially visible. OWN character — slightly different roof angle, small awning over its door, window box with tiny flower blobs.
+- LEFT EDGE: dusty pink neighbor house, partially visible (cropped). OWN character — slightly different roof angle, small awning over its door, window box with tiny flower blobs.
 - RIGHT EDGE: butter yellow neighbor house, partially visible. Has shutters on its windows, small porch with chair shape suggested.
 - Both gently faded into atmospheric haze (PIXAR-style depth).
 
@@ -109,14 +109,14 @@ SKY
 - Soft warm light atmosphere bathing the entire scene
 
 ═══════════════════════════════════════════
-COMPOSITION (9:16 vertical)
+COMPOSITION (1:1 square)
 ═══════════════════════════════════════════
 
-Single tall vertical view from the cobblestone path looking up at the house. Sky takes upper ~25%, house body dominates middle ~55%, landscaping + path takes lower ~20%.
+Single composition: the house in the center-foreground, neighboring houses faded at the edges, sky filling the upper portion, cobblestone path leading down from the door to the bottom of the frame. Slight low-angle for hero presence.
 
-A SMALL DETAIL INSET in the upper-LEFT corner (about 20% × 15%): close-up showcase of the front-door area showing the brass door knocker + peephole + sign clearly — the "design detail showcase" proving the integrated motifs.
+A SMALL DETAIL INSET in the upper-LEFT corner: close-up showcase of the front-door area showing the brass door knocker + peephole + sign clearly — proves the integrated motifs.
 
-LAYOUT: aspect ratio 9:16 vertical. Background subtle warm gradient. Location name "Mr. Realistic's House" in friendly confident hand-lettered style at the very bottom.
+LAYOUT: aspect ratio 1:1 square. Background: off-white with subtle warm gradient tint visible at the edges. Location name "Mr. Realistic's House" in friendly hand-lettered picture-book typography at the very bottom.
 ```
 
 ## 핵심 디자인 원칙

@@ -30,13 +30,11 @@ passages/{id}/
 ├── prompts/
 │   ├── characters/
 │   ├── locations/
-│   └── pages/
-│       └── chN/          # one folder per chapter
+│   └── pages/            # FLAT — no chapter subdirs
 └── images/
     ├── characters/
     ├── locations/
-    └── pages/
-        └── chN/
+    └── pages/            # FLAT — no chapter subdirs
 ```
 
 (A future sprint will provide `webtoon scaffold {id}` to do this in one command.)
@@ -73,7 +71,7 @@ Save as `passages/{id}/prompts/locations/NN_name.md`.
 
 Use **`meta-prompts/04-story-to-pages.md`** with the story + character list + location list as input. The output is one page prompt per page in each chapter.
 
-Save as `passages/{id}/prompts/pages/chN/pNN.md` (e.g., `ch1/p01.md`, `ch1/p02.md`, ...).
+Save as `passages/{id}/prompts/pages/pNN.md` (e.g., `p01.md`, `p02.md`, ..., `p32.md`). Pages are flat-numbered regardless of how many chapters/scenes the narrative has — the chapter division belongs to `story.md`, not to the file system.
 
 Each page prompt must include in its frontmatter:
 ```yaml
@@ -111,7 +109,7 @@ The pipeline runs all pages in parallel (up to `MAX_PARALLEL_REQUESTS`), attachi
 
 Look at the page outputs. If a page is off:
 
-- Edit the page prompt and rerun just that page: `webtoon generate {id} --page ch1/p05`
+- Edit the page prompt and rerun just that page: `webtoon generate {id} --page p05`
 - If a character looks inconsistent across pages, the issue is usually the character reference — re-run the character generation, then re-run all pages that use it (the pipeline cascades automatically when a reference image's hash changes).
 
 ## 10. Done

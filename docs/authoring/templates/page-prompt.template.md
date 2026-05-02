@@ -1,13 +1,17 @@
-# Ch{{N}} P{{NN}} — {{Page Title}}
+# P{{NN}} — {{Page Title}}
 
 > **첨부 reference images**: `{{character_id}}.png`, `{{location_id}}.png`
-> **저장 경로**: `images/pages/ch{{N}}/p{{NN}}.png`
+> **저장 경로**: `images/pages/p{{NN}}.png`
+
+Pages are flat-numbered (p01, p02, ..., pNN) regardless of how many narrative
+chapters / acts / scenes the story has. The `story.md` may organize content
+into chapters or scenes, but the file system is flat.
 
 When Sprint 2 lands, this file will use YAML frontmatter:
 ```yaml
 ---
-id: ch{{N}}/p{{NN}}
-output: pages/ch{{N}}/p{{NN}}.png
+id: p{{NN}}
+output: pages/p{{NN}}.png
 references:
   characters: [{{01_realistic}}, {{02_logical}}]
   locations: [{{02_living_room}}]
