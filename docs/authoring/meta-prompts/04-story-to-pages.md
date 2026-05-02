@@ -1,137 +1,86 @@
-# Meta-prompt 04 — Story → Page Prompts
+# Meta-prompt 04 — Story → Page Generation Master File
 
-Once your story, character cards, and location cards are all finalized, use this prompt to generate one page prompt per scene in the story. Save each output as `passages/{id}/prompts/pages/pNN.md` — pages are flat-numbered (no chapter subdirs), even if the story has multiple chapters / acts / scenes in `story.md`.
+Once your story, character cards, and location cards are all finalized, use this prompt to generate a SINGLE master file containing all pages. Save the output as `passages/{id}/prompts/pages.md`.
 
 ---
 
 ```
-You are helping me build per-page image-generation prompts for a picture book
-in the "Mr. Realistic Series" — Mr. Men style adaptations of SAT passages,
-rendered in PIXAR × Mr. Men hybrid visual style.
+You are helping me build per-page image-generation instructions for a picture
+book in the "Mr. Realistic Series" — Mr. Men style adaptations of SAT
+passages, rendered in PIXAR × Mr. Men hybrid visual style.
 
 INPUT — the three finalized artifacts for this passage:
 
 1) story.md:
 {{PASTE story.md HERE}}
 
-2) Character roster (just the IDs and one-line concept descriptions for context):
-{{LIST character IDs and one-liners — e.g., "01_realistic — observer with magnifying glass"}}
+2) Character roster (IDs, names, one-line visual descriptions):
+{{LIST character IDs and one-liners — e.g., "01_realistic — Mr. Realistic, terracotta body with magnifying glass"}}
 
-3) Location roster (IDs and one-line descriptions):
-{{LIST location IDs and one-liners — e.g., "02_living_room — Mr. Realistic's
-home interior with sofa, TV, mirror, shadowy corner"}}
-
-YOUR TASK
-
-Read the entire story and decide a reasonable number of pages — a page
-corresponds to one story beat or scene. Typical book length: 20–40 pages total.
-Pages are sequential and flat-numbered (p01, p02, ..., pNN); ignore the
-story's chapter divisions for FILE numbering (you may still note in each
-page's "Page intent" which chapter/scene/act it belongs to in the narrative).
-
-For each page, produce ONE page prompt following the template at
-`docs/authoring/templates/page-prompt.template.md`.
-
-VISUAL STYLE — non-negotiable
-Embed the PIXAR × Mr. Men style anchor in EVERY page prompt. Read
-`docs/authoring/style-anchor.md` for the full brief.
-
-REFERENCE IMAGE ATTACHMENT — critical
-
-Each page prompt MUST list the character and location reference IDs that
-should be attached at generation time. The pipeline reads these and attaches
-the corresponding PNG files to the Gemini call automatically. This is THE
-mechanism that keeps appearance consistent across pages.
-
-In the page prompt, include a strong CRITICAL section that tells Gemini to
-treat the attached references as authoritative templates:
+3) Location roster (IDs, names, one-line descriptions):
+{{LIST location IDs and one-liners — e.g., "02_living_room — Living room with dusty pink sofa, TV, mirror, shadowy corner"}}
 
 ═══════════════════════════════════════════
-⚠ CRITICAL — REFERENCE IMAGES ARE AUTHORITATIVE
+YOUR TASK — produce ONE master file: pages.md
 ═══════════════════════════════════════════
 
-The attached reference images define how the named characters and locations
-must look. Reproduce them EXACTLY: same colors, same proportions, same
-details, same architectural features, same character design. Treat the
-references as authoritative templates that must be matched precisely. Do NOT
-reinterpret, redesign, or "improve" them. This page composes EXISTING designs
-into a new scene — it is NOT redesigning them.
+The master file follows the template at `docs/authoring/templates/pages.template.md`. It contains:
 
-Do NOT re-describe the character's body color, glasses, props, etc. in the
-page prompt — that's what the reference is for. Only describe what's
-SCENE-SPECIFIC: the action, pose, composition, lighting, and any new objects
-that aren't on the reference card.
+1. **GLOBAL STYLE block** — the full PIXAR × Mr. Men style brief, defined ONCE at the top. The user pastes this with every page when generating.
 
-PER-PAGE OUTPUT FORMAT
+2. **REFERENCE GLOSSARY** — a table mapping descriptive reference names to file paths. Lets the user know which image files to attach for each page.
 
-For each page, produce a markdown file with:
+3. **Page entries** — one section per page with:
+   - **Refs:** descriptive names (matching the glossary), including cross-page refs for scene continuity
+   - **Anonymous in scene:** description of any non-named Mr. Men that should appear (only when applicable)
+   - **Show on page:** the exact narration plates and speech bubbles, with EVERY sentence from story.md preserved
+   - **Scene note:** ONE line of camera/composition guidance only when non-obvious (most pages: skip this)
 
-# P{{NN}} — {{Page Title}}
+Per-page entries should be MINIMAL. Trust Gemini to handle composition and rendering given the references and the global style. Do NOT repeat style instructions in each page (that's the global block's job).
 
-> **첨부 reference images**: {{character_id}}.png, {{location_id}}.png
-> **저장 경로**: images/pages/p{{NN}}.png
+═══════════════════════════════════════════
+INCLUDE EVERY SENTENCE FROM story.md
+═══════════════════════════════════════════
 
-## Prompt — Gemini에 그대로 복붙
-\`\`\`
-[Full Gemini prompt — embed:
-  - PIXAR × Mr. Men style framing
-  - CRITICAL reference-images-are-authoritative section
-  - SCENE (1–2 sentence beat description)
-  - COMPOSITION (camera angle, framing, who is where)
-  - LIGHTING & MOOD (warm / cool / dramatic, time of day)
-  - TEXT RENDERING (narration plates and/or speech bubbles, with exact Korean text)
-  - Aspect ratio 9:16 vertical
-]
-\`\`\`
+Every sentence in story.md must appear on some page. Do not abbreviate, summarize, or drop "transitional" sentences — they are what makes the picture book read as a continuous story. If a beat has long narration, split it into multiple pages.
 
-## Page intent
-{{What this page accomplishes in the story arc — context for future iteration}}
+Distinguish narration vs dialogue:
+- Narration text → narration plate
+- Quoted dialogue → speech bubble, attributed to speaker
 
-PAGE PACING — picture book grammar
+═══════════════════════════════════════════
+USE MULTIPLE REFERENCES PER PAGE
+═══════════════════════════════════════════
 
-Each page is ONE STORY BEAT. Common page types:
-- Establishing shot (introduce a setting, set a mood)
-- Character introduction (hero shot of a single character)
-- Comic timing (two characters with contrasting body language — visual joke)
-- Dialogue exchange (multiple speech bubbles between characters)
-- Inner-thought close-up (single character with thought bubble)
-- Ensemble (multiple characters reacting together)
-- Visual punchline (no text or minimal text — image carries the moment)
+Every page should have at least:
+- 1 location reference (for spatial anchor — even if the page is a close-up)
+- All speaking/visible characters
 
-Vary the camera and composition across pages to keep the rhythm interesting:
-wide / medium / close-up / extreme close-up / low-angle / high-angle /
-over-the-shoulder / dutch angle (sparingly, e.g., when Mr. Bias is present) /
-mirror or reflection shots.
+Plus, when the same setting recurs, REFERENCE EARLIER PAGES of that setting as additional anchors:
+- Page 18 might be the establishing shot of the sofa setup
+- Pages 19–25 (which all happen there) should reference Page 18 for continuity
 
-TEXT RENDERING — webtoon storybook conventions
+This prevents Gemini from drifting to a different setting when a page is character-focused with implicit location.
 
-Use the conventions from `style-anchor.md`:
-- Narration in soft cream rectangular plates with hand-painted edges and
-  warm sepia-brown hand-lettered Korean
-- Dialogue in classic round speech bubbles with hand-drawn imperfect outlines
-  and white wash interior, tail to speaker
-- Inner thought in dashed/cloud bubbles
-- English vocabulary in character-thematic colors (Mr. Realistic words in
-  terracotta-orange, Mr. Logical words in cobalt-blue, etc.) for consistency
-- ALL text feels PAINTED INTO the illustration, not stamped on top
+═══════════════════════════════════════════
+DESCRIPTIVE REF NAMES, NOT FILENAMES
+═══════════════════════════════════════════
 
-Specify the exact Korean text for each narration plate and speech bubble per
-page. Pull text from the story.md prose, condensing to fit the page if needed
-(picture book pacing favors short, punchy text per page).
+In page entries, use **descriptive names** (matching the glossary) so the user can see at a glance which images to attach:
 
-NUMBERING
+GOOD: "Refs: Mr. Realistic, Living room, Page 18"
+BAD:  "Refs: 01_realistic.png, 02_living_room.png"
 
-Pages are zero-padded sequential: p01, p02, ..., p14, p15, ..., pNN.
-Page IDs in references are written as just `p01`, `p02`, etc. — no chapter
-prefix. The story's narrative chapter divisions live in `story.md`, not in
-the file system.
+═══════════════════════════════════════════
+PAGE COUNT
+═══════════════════════════════════════════
 
-ITERATE
+Decide a reasonable number of pages — a page corresponds to one story beat or scene. Typical: 30–50 pages per passage. Pages are FLAT-NUMBERED sequentially: P01, P02, ..., PNN. Ignore any chapter/scene divisions in story.md for FILE numbering.
 
-After producing all pages for a chapter, ask me which to refine. Common
-requests:
-- "P05 needs a different camera angle — try low-angle"
-- "P12's dialogue is too long for one bubble — split into two"
-- "P18 should have a stronger visual punchline — minimal text"
+ITERATION
+
+After producing the master file, ask me which pages to refine. Common requests:
+- "P14 dialogue is too long for one bubble — split into multiple"
+- "P22 needs a different camera angle"
 - "Add a beat-pause page between P10 and P11"
 ```

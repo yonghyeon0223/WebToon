@@ -99,8 +99,7 @@ passages/
         NN_name.md
       locations/
         NN_name.md
-      pages/        # flat — no chapter subdirs
-          pNN.md
+      pages.md      # SINGLE master file for all pages (global style + per-page sections)
     images/             # Generated outputs (when StorageService is local)
       characters/
       locations/
@@ -156,28 +155,41 @@ output: characters/01_realistic.png
 [free-form human notes — not sent to Gemini]
 ```
 
-**Page prompts:**
+**Page master file (`pages.md`):**
+
+A single file per passage that contains:
+
+1. **GLOBAL STYLE block** at the top — the full PIXAR × Mr. Men style brief, defined ONCE. The user pastes this with every page when generating images.
+2. **REFERENCE GLOSSARY** — descriptive names → image file paths.
+3. **Per-page sections** — minimal: refs (descriptive names) + the exact text on the page. Composition and rendering details left to Gemini given proper references.
+
 ```markdown
----
-id: ch1/p01
-output: pages/ch1/p01.png
-references:
-  characters: [01_realistic]
-  locations: [01_realistic_house]
----
-
-# Ch1 P01 — Mr. Realistic 동네 첫 등장
-
-## Prompt
+## 🎨 GLOBAL STYLE (paste this with every page)
 \`\`\`
-[prompt text]
+[full style brief]
 \`\`\`
+
+## 📚 REFERENCE GLOSSARY
+| Reference name | File | Description |
+| **Mr. Realistic** | images/characters/01_realistic.png | ... |
+
+## 📑 Pages
+
+### P01 — 동네 첫 등장
+**Refs:** Mr. Realistic, Mr. Realistic's house
+**Show on page:**
+- Narration plate: "이 동네에서 가장 유명한 사람은 Mr. Realistic이에요."
+
+### P02 — ...
 ```
 
-**Frontmatter schema (validated with zod):**
+This format is intentionally minimal per page. Style is defined globally; references provide visual context; Gemini handles composition.
+
+**Frontmatter schema for character/location cards (validated with zod):**
 - `id` (required) — unique within its category for the passage
 - `output` (required) — relative path under `passages/{id}/images/`
-- `references` (optional, page-only) — `{ characters?: string[], locations?: string[] }`. Each ID must match an existing character/location prompt file.
+
+**`pages.md` parsing:** the pipeline parses the master file by markdown headings. Each `### PNN — title` section becomes one page, with `**Refs:**` parsed for reference IDs and `**Show on page:**` content extracted as the prompt body. The GLOBAL STYLE block is prepended to every page's effective prompt at generation time.
 
 ### Reference Resolution
 

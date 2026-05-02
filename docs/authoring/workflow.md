@@ -28,13 +28,13 @@ passages/{id}/
 ├── source.md             # from templates/source.template.md
 ├── story.md              # from templates/story.template.md
 ├── prompts/
-│   ├── characters/
-│   ├── locations/
-│   └── pages/            # FLAT — no chapter subdirs
+│   ├── characters/       # one .md per character (uses character-card.template.md)
+│   ├── locations/        # one .md per location (uses location-card.template.md)
+│   └── pages.md          # SINGLE master file for all pages (uses pages.template.md)
 └── images/
     ├── characters/
     ├── locations/
-    └── pages/            # FLAT — no chapter subdirs
+    └── pages/            # generated images, flat-numbered (p01.png, p02.png, ...)
 ```
 
 (A future sprint will provide `webtoon scaffold {id}` to do this in one command.)
@@ -71,7 +71,12 @@ Save as `passages/{id}/prompts/locations/NN_name.md`.
 
 Use **`meta-prompts/04-story-to-pages.md`** with the story + character list + location list as input. The output is one page prompt per page in each chapter.
 
-Save as `passages/{id}/prompts/pages/pNN.md` (e.g., `p01.md`, `p02.md`, ..., `p32.md`). Pages are flat-numbered regardless of how many chapters/scenes the narrative has — the chapter division belongs to `story.md`, not to the file system.
+Save as a SINGLE master file at `passages/{id}/prompts/pages.md`. The master file contains:
+- A GLOBAL STYLE block at the top (paste with every page when generating)
+- A REFERENCE GLOSSARY (descriptive names → image files)
+- Per-page sections with refs (descriptive names) + the exact text on the page
+
+Per-page sections are intentionally minimal. The global style is defined ONCE; trust Gemini to handle composition and rendering given proper references.
 
 Each page prompt must include in its frontmatter:
 ```yaml
@@ -109,7 +114,7 @@ The pipeline runs all pages in parallel (up to `MAX_PARALLEL_REQUESTS`), attachi
 
 Look at the page outputs. If a page is off:
 
-- Edit the page prompt and rerun just that page: `webtoon generate {id} --page p05`
+- Edit the page section in `pages.md` and rerun just that page: `webtoon generate {id} --page p05`
 - If a character looks inconsistent across pages, the issue is usually the character reference — re-run the character generation, then re-run all pages that use it (the pipeline cascades automatically when a reference image's hash changes).
 
 ## 10. Done
