@@ -31,8 +31,10 @@ interface PagePrompt {
 }
 
 function parseFrontmatter(content: string): PagePrompt {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { refs: [], body: content };
+  // Normalize CRLF → LF so Windows-saved files parse correctly.
+  const normalized = content.replace(/\r\n/g, '\n');
+  const match = normalized.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return { refs: [], body: normalized };
 
   const [, fmBlock, body] = match;
   const refsMatch = fmBlock!.match(/refs:\s*\[([^\]]*)\]/);
