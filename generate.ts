@@ -7,6 +7,7 @@ const PASSAGE = '2025-06-busan-10th-Q24-open-to-interpretation';
 const PASSAGE_DIR = path.join('passages', PASSAGE);
 const PROMPTS_DIR = path.join(PASSAGE_DIR, 'prompts/pages');
 const IMAGES_DIR = path.join(PASSAGE_DIR, 'images/pages');
+const ARCHIVE_DIR = path.join(IMAGES_DIR, '_archive');
 const GLOBAL_STYLE_PATH = path.join(PASSAGE_DIR, 'prompts/_global_style.md');
 const MODEL = process.env.GEMINI_IMAGE_MODEL ?? 'gemini-3-pro-image-preview';
 
@@ -75,8 +76,35 @@ established visual world.
   return `${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
 }
 
-async function generatePage(pageId: string, globalStyle: string): Promise<void> {
+function archiveTimestamp(): string {
+  // Local time, filesystem-safe, sortable: 2025-05-03T153022
+  const d = new Date();
+  const pad = (n: number): string => String(n).padStart(2, '0');
+  return (
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
+    `T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`
+  );
+}
+
+async function archiveExisting(
+  outputPath: string,
+  pageId: string,
+): Promise<void> {
+  await fs.mkdir(ARCHIVE_DIR, { recursive: true });
+  const archivePath = path.join(
+    ARCHIVE_DIR,
+    `${pageId}_${archiveTimestamp()}.png`,
+  );
+  await fs.rename(outputPath, archivePath);
+  console.log(`[${pageId}] archived previous → ${archivePath}`);
+}
+
+async function generatePage(
+  pageId: string,
+  globalStyle: string,
+): Promise<void> {
   const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
+  const tempPath = `${outputPath}.tmp`;
   const { refs, body } = await readPagePrompt(pageId);
 
   for (const refId of refs) {
@@ -124,7 +152,15 @@ async function generatePage(pageId: string, globalStyle: string): Promise<void> 
   }
 
   const imageBuffer = Buffer.from(imagePart.inlineData.data, 'base64');
-  await fs.writeFile(outputPath, imageBuffer);
+
+  // Atomic-ish write: temp first, archive existing, then rename temp to final.
+  // Crash mid-step leaves recoverable state instead of a corrupt PNG.
+  await fs.writeFile(tempPath, imageBuffer);
+  if (await fileExists(outputPath)) {
+    await archiveExisting(outputPath, pageId);
+  }
+  await fs.rename(tempPath, outputPath);
+
   console.log(
     `[${pageId}] -> ${outputPath} (${(imageBuffer.length / 1024).toFixed(1)} KB)`,
   );
@@ -160,10 +196,10 @@ async function main(): Promise<void> {
   const globalStyle = await fs.readFile(GLOBAL_STYLE_PATH, 'utf-8');
 
   const args = process.argv.slice(2);
-  const force = args.includes('--force');
   const start = parseIntFlag(args, 'start');
   const end = parseIntFlag(args, 'end');
   const positional = args.filter((a) => !a.startsWith('--'));
+  const explicitMode = start !== null || end !== null || positional.length > 0;
 
   const allPageIds = await listPageIds();
 
@@ -196,9 +232,15 @@ async function main(): Promise<void> {
       continue;
     }
 
+    // No-args (catch-up mode) → skip already-generated pages so re-running
+    // safely fills in gaps without burning API credits on existing work.
+    // Explicit page targeting (range or positional) → always (re)generate;
+    // any existing image is archived before being replaced.
     const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
-    if ((await fileExists(outputPath)) && !force) {
-      console.log(`[${pageId}] skipped (exists; use --force to regenerate)`);
+    if (!explicitMode && (await fileExists(outputPath))) {
+      console.log(
+        `[${pageId}] skipped (exists; target it explicitly to regenerate)`,
+      );
       continue;
     }
 
