@@ -35,6 +35,20 @@ TEXT RENDERING
   comparable to narration plate visual weight in the same scene; do NOT
   shrink dialogue bubbles smaller than the plates.
 
+- Font size (CRITICAL minimum): Korean glyph height (cap height) in
+  narration plates and speech bubbles is **at least ~3.5% of the page
+  height**. On the 9:16 mobile portrait page this is the floor — text
+  must always be comfortably readable on a phone at arm's length without
+  squinting. Larger is fine when the line allows; never go below.
+
+- Font size hierarchy across elements (relative, not absolute):
+    · Narration plate body text  ≈  speech bubble body text  (within 10%)
+    · Vocab clip English word  >  Korean definition below it (~1.2x)
+    · SFX / kinetic shouting text (e.g. "삐ㅡ익!", "심판 나가라!")  >  body
+      text — larger, bolder, hand-painted motion feel
+    · Inner-thought / italicized narration  ≈  body text (same size,
+      different style — italic-light, slightly thinner stroke)
+
 - Letter spacing (CRITICAL): consistent, even Korean tracking matching
   natural Korean picture-book typography. Same letter spacing in narration
   plates AND speech bubbles — they should look like the same lettering
