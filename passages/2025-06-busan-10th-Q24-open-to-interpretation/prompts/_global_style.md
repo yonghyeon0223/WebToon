@@ -112,3 +112,11 @@ Visual:
 - The tag sits ON TOP of the illustration in the bottom-right corner, NOT
   inside any narration plate or speech bubble. It must not cover key
   character faces or important props.
+
+⚠ CRITICAL — render ONLY the plain text of the word and definition.
+DO NOT paint any markdown syntax (asterisks `*`, underscores `_`, backticks,
+hash marks, brackets) onto the parchment, even if such characters appear in
+the prompt content. Markdown is metadata for emphasis intent, never literal
+glyphs. The parchment shows two clean strings: the English word, and the
+Korean definition. Nothing else. No labels (don't paint "English:" or
+"Korean:"), no quotes, no asterisks.
