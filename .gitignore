@@ -1,33 +1,17 @@
-# Dependencies
 node_modules/
-
-# Build output (currently noEmit, but reserved)
-dist/
-
-# Test coverage
-coverage/
-
-# Environment
 .env
 .env.local
 .env.*.local
 
-# Logs
-*.log
+# Generated images — regenerable artifacts
+passages/*/images/
 
-# OS
+# OS / IDE
 .DS_Store
 Thumbs.db
-
-# IDE
 .vscode/
 .idea/
 *.swp
-*.swo
 
-# TypeScript build info
+# TypeScript
 *.tsbuildinfo
-
-# Generated images and state — regenerable artifacts, never committed
-passages/*/images/
-passages/*/.state.json
