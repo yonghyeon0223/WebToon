@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output (currently noEmit, but reserved)
+dist/
+
+# Test coverage
+coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Generated images and state — regenerable artifacts, never committed
+passages/*/images/
+passages/*/.state.json
+
+# Pre-Sprint manual generations (root images/, regenerable via pipeline once Sprint 6 migrates)
+/images/
