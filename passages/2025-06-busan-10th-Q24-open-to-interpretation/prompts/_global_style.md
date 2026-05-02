@@ -1,12 +1,22 @@
 ═══════════════════════════════════════════
+⚠ ASPECT RATIO — 9:16 VERTICAL PORTRAIT (NON-NEGOTIABLE)
+═══════════════════════════════════════════
+Output image MUST be 9:16 vertical mobile portrait orientation. The output
+is TALLER than wide. Width-to-height ratio is 9:16 (e.g. 1080×1920, 720×1280).
+NEVER landscape, NEVER square, NEVER any other ratio. Even if the scene
+contents (e.g. a wide cafe interior, a horizontal balance scale, a stadium)
+would naturally compose in landscape, force the composition into the 9:16
+portrait frame.
+
+═══════════════════════════════════════════
 GLOBAL STYLE — PIXAR × MR. MEN PICTURE BOOK
 ═══════════════════════════════════════════
 Render as if PIXAR published a Roger Hargreaves Mr. Men book. Illustrated
 medium with PIXAR craft — NOT a 3D animation still.
 
-Aspect ratio: 9:16 vertical mobile portrait. FULL-BLEED — illustration fills
-the entire frame edge-to-edge. NO border, margin, frame, matte, or device
-mockup. Background extends to all four edges.
+FULL-BLEED — illustration fills the entire 9:16 frame edge-to-edge. NO
+border, margin, frame, matte, or device mockup. Background extends to all
+four edges.
 
 Mr. Men identity (preserve): geometric body silhouettes (round / rectangle /
 oval), stick arms with white mitten hands, stubby legs with simple shoes,

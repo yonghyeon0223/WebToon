@@ -176,7 +176,10 @@ async function generatePage(
   const response = await client.models.generateContent({
     model,
     contents: [{ role: 'user', parts }],
-    config: { responseModalities: ['IMAGE'] },
+    config: {
+      responseModalities: ['IMAGE'],
+      imageConfig: { aspectRatio: '9:16' },
+    },
   });
 
   const responseParts = response.candidates?.[0]?.content?.parts ?? [];
