@@ -21,12 +21,37 @@ npm run generate -- --end=5               # p01 ~ p05
 npm run generate -- p05 p07               # specific pages by id
 ```
 
-Two modes:
+### Two modes
 
 - **No args (catch-up mode)** — skips any page whose image already exists. Re-running after a partial completion safely fills in gaps without burning API credits.
 - **Explicit targeting (`--start`/`--end` or positional)** — always (re)generates the targeted pages. Any existing image is **archived first** to `images/pages/_archive/pNN_YYYY-MM-DDTHHmmss.png` before being replaced. Nothing is ever silently destroyed.
 
 Range flags take priority over positional page IDs when both are given.
+
+### Model selection
+
+Default is **Pro** (`gemini-3-pro-image-preview`). Switch tier per run with `--model`:
+
+```bash
+npm run generate -- --model=flash         # Nano Banana (gemini-2.5-flash-image-preview)
+npm run generate -- --model=pro           # Nano Banana Pro (default)
+npm run generate -- --model=<full-id>     # any model id passes through verbatim
+```
+
+Resolution priority: `--model` flag > `GEMINI_IMAGE_MODEL` env var > default Pro.
+
+**Recommended cost-saving workflow** — draft with Flash (~$0.04/image), upgrade only finals to Pro (~$0.13/image):
+
+```bash
+# 1. First pass on the whole book with Flash (~$5 for 107 pages)
+npm run generate -- --model=flash
+
+# 2. Inspect outputs, identify weak pages
+
+# 3. Regenerate the weak ones with Pro (archives the Flash version)
+npm run generate -- --model=pro --start=5 --end=5
+npm run generate -- --model=pro p18 p27
+```
 
 ## Layout
 

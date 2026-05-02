@@ -9,7 +9,12 @@ const PROMPTS_DIR = path.join(PASSAGE_DIR, 'prompts/pages');
 const IMAGES_DIR = path.join(PASSAGE_DIR, 'images/pages');
 const ARCHIVE_DIR = path.join(IMAGES_DIR, '_archive');
 const GLOBAL_STYLE_PATH = path.join(PASSAGE_DIR, 'prompts/_global_style.md');
-const MODEL = process.env.GEMINI_IMAGE_MODEL ?? 'gemini-3-pro-image-preview';
+
+const MODEL_ALIASES: Record<string, string> = {
+  flash: 'gemini-2.5-flash-image-preview',
+  pro: 'gemini-3-pro-image-preview',
+};
+const DEFAULT_MODEL = 'gemini-3-pro-image-preview';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) {
@@ -102,6 +107,7 @@ async function archiveExisting(
 async function generatePage(
   pageId: string,
   globalStyle: string,
+  model: string,
 ): Promise<void> {
   const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
   const tempPath = `${outputPath}.tmp`;
@@ -132,7 +138,7 @@ async function generatePage(
   );
 
   const response = await client.models.generateContent({
-    model: MODEL,
+    model,
     contents: [{ role: 'user', parts }],
     config: { responseModalities: ['IMAGE'] },
   });
@@ -201,6 +207,16 @@ async function main(): Promise<void> {
   const positional = args.filter((a) => !a.startsWith('--'));
   const explicitMode = start !== null || end !== null || positional.length > 0;
 
+  // Resolve model: --model=<alias|full-id> > GEMINI_IMAGE_MODEL env > default
+  const modelArg = args
+    .find((a) => a.startsWith('--model='))
+    ?.split('=')[1];
+  const model =
+    (modelArg !== undefined && modelArg !== ''
+      ? (MODEL_ALIASES[modelArg] ?? modelArg)
+      : process.env.GEMINI_IMAGE_MODEL) ?? DEFAULT_MODEL;
+  console.log(`Model: ${model}`);
+
   const allPageIds = await listPageIds();
 
   let targets: string[];
@@ -244,7 +260,7 @@ async function main(): Promise<void> {
       continue;
     }
 
-    await generatePage(pageId, globalStyle);
+    await generatePage(pageId, globalStyle, model);
   }
 }
 
