@@ -138,6 +138,22 @@ async function listPageIds(): Promise<string[]> {
     .map((f) => path.basename(f, '.md'));
 }
 
+function parseIntFlag(args: string[], name: string): number | null {
+  const flag = args.find((a) => a.startsWith(`--${name}=`));
+  if (!flag) return null;
+  const raw = flag.split('=')[1];
+  const n = raw === undefined ? NaN : parseInt(raw, 10);
+  if (!Number.isInteger(n) || n < 1) {
+    console.error(`Invalid --${name} value: ${raw}`);
+    process.exit(2);
+  }
+  return n;
+}
+
+function pageIdToNum(id: string): number {
+  return parseInt(id.slice(1), 10);
+}
+
 async function main(): Promise<void> {
   await fs.mkdir(IMAGES_DIR, { recursive: true });
 
@@ -145,10 +161,34 @@ async function main(): Promise<void> {
 
   const args = process.argv.slice(2);
   const force = args.includes('--force');
-  const explicit = args.filter((a) => !a.startsWith('--'));
+  const start = parseIntFlag(args, 'start');
+  const end = parseIntFlag(args, 'end');
+  const positional = args.filter((a) => !a.startsWith('--'));
 
   const allPageIds = await listPageIds();
-  const targets = explicit.length > 0 ? explicit : allPageIds;
+
+  let targets: string[];
+  if (start !== null || end !== null) {
+    const allNums = allPageIds.map(pageIdToNum);
+    const startN = start ?? Math.min(...allNums);
+    const endN = end ?? Math.max(...allNums);
+    if (startN > endN) {
+      console.error(`Empty range: --start=${startN} > --end=${endN}`);
+      process.exit(2);
+    }
+    targets = allPageIds.filter((id) => {
+      const n = pageIdToNum(id);
+      return n >= startN && n <= endN;
+    });
+    if (targets.length === 0) {
+      console.error(`No pages match range [p${startN}, p${endN}].`);
+      process.exit(2);
+    }
+  } else if (positional.length > 0) {
+    targets = positional;
+  } else {
+    targets = allPageIds;
+  }
 
   for (const pageId of targets) {
     if (!allPageIds.includes(pageId)) {
