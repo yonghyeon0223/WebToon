@@ -71,13 +71,46 @@ function buildPromptText(
     refs.length === 0
       ? ''
       : `═══════════════════════════════════════════
-REFERENCE IMAGES (attached in order before this prompt): ${refs.join(', ')}
+⚠ CRITICAL — REFERENCE IMAGES ATTACHED (in order): ${refs.join(', ')}
 ═══════════════════════════════════════════
-Use these as visual anchors. Match characters' likeness, scene composition,
-lighting, narration plate / speech bubble / vocab clip styling, lettering,
-and overall book vibe EXACTLY as established in these refs. The page prompt
-below adds the new beat (action, expression, text content) on top of the
-established visual world.
+The attached images are the VISUAL CONTRACT for this page. They are
+authoritative. Anything that appears in them must be reproduced EXACTLY
+in the new image — never reinterpreted, redesigned, or "improved."
+
+CHARACTER LIKENESS (highest priority):
+  • Match each named character's body shape, proportions, exact body
+    color, eye style, mitten hand style, foot/shoe style EXACTLY as
+    shown in the refs.
+  • Reproduce signature props (magnifying glass, slate + chalk, mortarboard
+    cap, leather notebook, brass balance scale, etc.) IDENTICALLY — same
+    shape, same color, same materials, same proportions to the body, same
+    placement (held in mitten / on cord around neck / etc.) as in the refs.
+  • A viewer flipping between a ref and this new page must see no redesign
+    of the character. Instant recognizability is the bar.
+
+SETTING / LOCATION:
+  • Match architecture, palette, lighting temperature, signature elements
+    (door color, awning pattern, window shape, props in the scene).
+  • Camera angle and composition can change for the new beat, but the
+    setting itself must be recognizably the same place from the refs.
+
+PAGE FURNITURE (narration plates, speech bubbles, vocab clip parchment,
+lettering hand, drop shadow, paper texture, color palette of the typography):
+  • Reproduce the exact same visual treatment seen in the refs. Same
+    parchment color, same painterly imperfect edge style, same wobbly
+    bubble outline, same Korean lettering hand, same sepia ink tone.
+  • Do NOT redesign any of these elements. Same rendering family
+    throughout the book.
+
+THE PROMPT BELOW describes only the NEW BEAT for this page (the action,
+expression, text content that's different from the refs). The refs supply
+the EXISTING WORLD (who, where, how everything looks). Your job is to
+combine: existing world from refs + new beat from prompt.
+
+DO NOT redesign anything visible in the refs.
+DO NOT introduce visual elements not described in the prompt and not in
+the refs.
+DO NOT drift to a different art style than what the refs establish.
 
 `;
 
