@@ -1,0 +1,25 @@
+id: {{YYYY-MM}}-{{region}}-{{grade}}-Q{{NN}}-{{content-slug}}
+title: "{{Series title in English}}"
+
+# Source metadata (also encoded in the id slug for sortability;
+# duplicated here as structured fields for programmatic queries)
+source:
+  testDate: '{{YYYY-MM}}'              # e.g., '2025-06'
+  region: {{region}}                   # e.g., busan, seoul, daegu, gyeonggi, national
+  grade: {{grade-number}}              # 10, 11, 12
+  questionNumber: {{NN}}               # 24, 33, etc.
+  type: {{type}}                       # hagpyung (학평), moeun (모평), suneung (수능)
+  topic: {{kebab-case-topic}}          # short topic slug
+
+# Story-level info — informational, not authoritative
+story:
+  chapters: {{N}}
+  characters: {{N}}
+  locations: {{N}}
+  pages:
+    ch1: {{N}}
+    ch2: {{N}}
+    total: {{N}}
+
+# Pipeline status — informational; .state.json is the source of truth
+status: planning                       # planning | in_progress | completed

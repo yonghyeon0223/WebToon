@@ -2,11 +2,23 @@
 
 ## Project Overview
 
-WebToon is a personal authoring pipeline that converts arbitrary text passages (starting with Korean SAT mock-exam English passages) into Mr. Men style mobile picture books — characters, locations, and pages — generated via Gemini Pro image generation. Each "passage" becomes a self-contained illustrated picture book.
+WebToon is a personal **image-generation pipeline** that turns already-authored prompts into Mr. Men style mobile picture books, one passage at a time, via Gemini Pro image generation.
 
-This is a **personal local tool**, not a deployed product. The user is the only operator. There is no HTTP server, no authentication, no multi-user concerns. Priorities, in order: (1) consistent character/location appearance across all pages of a book, (2) efficient parallel generation that respects API limits, (3) easy iteration on prompts when the visual style needs tuning, (4) scalability to 100+ passages without architectural rework. Speed of delivery matters less than getting the architecture right.
+### Scope (sharp)
 
-The visual style is locked: **PIXAR animation studio quality × classic Roger Hargreaves Mr. Men silhouettes**. Story content varies per passage; visual style does not. (See `~/.claude/projects/c--Projects-WebToon/memory/feedback_pixar_mr_men_style.md` for full style brief.)
+- **Pipeline input** = manually authored prompts (character cards + location cards + page prompts) plus the raw passage and adapted story for context.
+- **Pipeline output** = generated images, one per character / location / page, with reference images attached automatically so style stays consistent.
+- **Pipeline does NOT** generate stories or prompts. Those are written by a human collaborating with Claude in chat, following the templates and meta-prompts in `docs/authoring/`. Keeping story authoring outside the pipeline is a deliberate scope choice — see `docs/authoring/README.md`.
+
+### Why this split
+
+Story writing and prompt writing benefit from human creative control + iteration in chat. Image generation benefits from automation: parallel API calls, retry/backoff, prompt-hash idempotency, automatic reference attachment. Putting them in different layers gives each its right tool.
+
+### Other constraints
+
+This is a **personal local tool**, not a deployed product. The user is the only operator. There is no HTTP server, no authentication, no multi-user concerns. Priorities, in order: (1) consistent character/location appearance across all pages of a book (via reference image attachment), (2) efficient parallel generation that respects API limits, (3) easy iteration on prompts when the visual style needs tuning, (4) scalability to 100+ passages without architectural rework. Speed of delivery matters less than getting the architecture right.
+
+The visual style is locked across all passages: **PIXAR animation studio quality × classic Roger Hargreaves Mr. Men silhouettes**. Story content varies per passage; visual style does not. The full brief lives in `docs/authoring/style-anchor.md` and is embedded in every prompt.
 
 ## Tech Stack
 
@@ -343,14 +355,15 @@ Each sprint happens in a separate Claude Code session. To maintain continuity ac
 Each sprint gets its own folder under `docs/sprints/` with a descriptive name:
 ```
 docs/sprints/
-  sprint-01-scaffolding/
-  sprint-02-prompts-and-state/
-  sprint-03-gemini-generator/
-  sprint-04-pipeline-orchestration/
-  sprint-05-cli/
-  sprint-06-migration/
+  sprint-01-foundation-and-storage/   ✅ done
+  sprint-02-prompts-and-state/        — parse prompt files, manage .state.json
+  sprint-03-gemini-generator/         — Gemini API client, retry logic
+  sprint-04-pipeline-orchestration/   — 3-stage parallel pipeline
+  sprint-05-cli/                      — commander commands, CLI UX
   ...
 ```
+
+Note: an earlier plan included a Sprint 6 migration script. The first passage was migrated manually before Sprint 2 started, so future passages are created from the templates in `docs/authoring/templates/` — no migration script needed.
 
 Each sprint folder contains the four-phase report. The folder name follows `sprint-NN-short-description` (kebab-case).
 
