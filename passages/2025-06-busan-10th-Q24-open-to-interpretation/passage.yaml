@@ -1,0 +1,25 @@
+id: 2025-06-busan-10th-Q24-open-to-interpretation
+title: "Mr. Realistic Series — Open to Interpretation"
+
+# Source metadata (also encoded in the id slug for sortability;
+# duplicated here as structured fields for programmatic queries)
+source:
+  testDate: '2025-06'        # YYYY-MM
+  region: busan
+  grade: 10
+  questionNumber: 24
+  type: hagpyung             # 학력평가
+  topic: cognitive-bias-and-objectivity
+
+# Story-level info — informational, not authoritative
+story:
+  chapters: 2
+  characters: 6
+  locations: 6
+  pages:
+    ch1: 14
+    ch2: 18
+    total: 32
+
+# Pipeline status — informational; .state.json is the source of truth
+status: in_progress

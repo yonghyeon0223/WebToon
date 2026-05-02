@@ -31,6 +31,3 @@ Thumbs.db
 # Generated images and state — regenerable artifacts, never committed
 passages/*/images/
 passages/*/.state.json
-
-# Pre-Sprint manual generations (root images/, regenerable via pipeline once Sprint 6 migrates)
-/images/
