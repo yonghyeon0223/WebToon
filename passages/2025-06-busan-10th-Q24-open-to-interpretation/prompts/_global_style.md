@@ -31,6 +31,37 @@ lighting, polished studio finish.
 Avoid: pure flat 2D, pure 3D CGI, razor-sharp edges, photorealistic clutter.
 
 ═══════════════════════════════════════════
+MAIN CHARACTER DISTINCTNESS
+═══════════════════════════════════════════
+The six main characters of the book — Mr. Realistic, Mr. Logical,
+Mr. Rational, Mr. Red, Mr. Blue, Mr. Bias — MUST be designed to look
+immediately distinct from each other. A reader should be able to
+identify any of them from silhouette alone (no color, no props
+visible). No two main characters share a body shape, height-to-width
+ratio, posture, or face style.
+
+When introducing a NEW main character on their debut page, the prompt
+body should describe THREE dimensions in detail. Color and one prop
+are NOT enough:
+
+  · Body silhouette — overall geometric shape (round / tall rectangle /
+    rounded square / short-wide / tall-slim / draped, etc.), explicit
+    height-to-width ratio, weight distribution (top-heavy / bottom-heavy
+    / centered), distinguishing proportion notes.
+  · Face features — eye shape and size (round dots vs almond, large vs
+    small), eyebrow style (absent / thin / thick / angled), default mouth
+    shape (line / curve / open), blush or cheek marks, head adornment
+    (cap, hood, hair).
+  · Posture & stance — characteristic body language carried across all
+    appearances (planted wide / leaning forward / upright stiff / narrow
+    elegant / asymmetric tilt, etc.).
+
+A new main character must differ from every previously established
+main character along ALL three dimensions, not just color. Cameo
+descriptions can stay simpler — this rule applies to named main
+characters only.
+
+═══════════════════════════════════════════
 TEXT RENDERING
 ═══════════════════════════════════════════
 - Narration → cream parchment plate, painterly imperfect edges, sepia-brown
