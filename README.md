@@ -62,6 +62,17 @@ reader optimized for mobile. Navigate with the buttons, tap left/right
 edges of the image, swipe (mobile), or arrow keys (desktop). URL hash
 preserves position across refresh. Auto-detects which pages exist.
 
+## Export (share via messenger)
+
+```bash
+npm run export
+```
+
+Bundles every generated page into a single PDF at
+`passages/{id}/{id}.pdf`. Each image becomes one 9:16 page, fit and
+centered. Send the file via KakaoTalk / Telegram / email — opens on any
+device.
+
 ## Layout
 
 - `passages/{id}/prompts/_global_style.md` — canonical PIXAR × Mr. Men style brief, auto-injected into every prompt.

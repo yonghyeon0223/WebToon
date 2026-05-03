@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["generate.ts"]
+  "include": ["generate.ts", "export.ts"]
 }
