@@ -1,204 +1,15 @@
-import 'dotenv/config';
-import { GoogleGenAI } from '@google/genai';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import * as readline from 'node:readline/promises';
-
-const PASSAGE = '2025-06-busan-10th-Q24-open-to-interpretation';
-const PASSAGE_DIR = path.join('passages', PASSAGE);
-const PROMPTS_DIR = path.join(PASSAGE_DIR, 'prompts/pages');
-const IMAGES_DIR = path.join(PASSAGE_DIR, 'images/pages');
-const ARCHIVE_DIR = path.join(IMAGES_DIR, '_archive');
-const GLOBAL_STYLE_PATH = path.join(PASSAGE_DIR, 'prompts/_global_style.md');
-
-const MODEL_ALIASES: Record<string, string> = {
-  flash: 'gemini-2.5-flash-image',
-  flash2: 'gemini-3.1-flash-image-preview',
-  pro: 'gemini-3-pro-image-preview',
-};
-// Default to flash2 for cheaper iteration. Use --model=pro for finals.
-const DEFAULT_MODEL = 'gemini-3.1-flash-image-preview';
-
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error('Missing GEMINI_API_KEY — set it in .env');
-  process.exit(2);
-}
-
-const client = new GoogleGenAI({ apiKey });
-
-interface PagePrompt {
-  refs: string[];
-  body: string;
-}
-
-function parseFrontmatter(content: string): PagePrompt {
-  // Normalize CRLF → LF so Windows-saved files parse correctly.
-  const normalized = content.replace(/\r\n/g, '\n');
-  const match = normalized.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { refs: [], body: normalized };
-
-  const [, fmBlock, body] = match;
-  const refsMatch = fmBlock!.match(/refs:\s*\[([^\]]*)\]/);
-  const refs = refsMatch
-    ? refsMatch[1]!
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean)
-    : [];
-
-  return { refs, body: body!.trimStart() };
-}
-
-async function fileExists(p: string): Promise<boolean> {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function readPagePrompt(pageId: string): Promise<PagePrompt> {
-  const filePath = path.join(PROMPTS_DIR, `${pageId}.md`);
-  return parseFrontmatter(await fs.readFile(filePath, 'utf-8'));
-}
-
-function buildPromptText(
-  pageBody: string,
-  refs: string[],
-  globalStyle: string,
-): string {
-  const refPreamble =
-    refs.length === 0
-      ? ''
-      : `═══════════════════════════════════════════
-REFERENCE IMAGES — ${refs.length} attached, in order
-═══════════════════════════════════════════
-${refs.length} reference image(s) are attached BEFORE this text in this
-exact order. The page prompt's "## Refs" section below refers to them
-positionally — "First", "Second", "Third", etc. — matching the
-attachment order. Each entry includes a short description of what that
-image shows for extra clarity.
-
-General buckets used in the ## Refs section:
-  · Anchor → reproduce the named character / location EXACTLY.
-  · New character or location → design FRESH from the prompt body, no
-    inheritance from refs.
-  · Vibe / style ref → match book tone, lettering, page furniture; do
-    NOT copy specific characters or locations.
-
-Do not inherit visible elements from refs unless the prompt body
-explicitly anchors them to this scene. Do not introduce visual elements
-not described in the prompt body. Do not drift to a different art style.
-
-`;
-
-  return `${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
-}
-
-function archiveTimestamp(): string {
-  // Local time, filesystem-safe, sortable: 2025-05-03T153022
-  const d = new Date();
-  const pad = (n: number): string => String(n).padStart(2, '0');
-  return (
-    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
-    `T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`
-  );
-}
-
-async function archiveExisting(
-  outputPath: string,
-  pageId: string,
-): Promise<void> {
-  await fs.mkdir(ARCHIVE_DIR, { recursive: true });
-  const archivePath = path.join(
-    ARCHIVE_DIR,
-    `${pageId}_${archiveTimestamp()}.png`,
-  );
-  await fs.rename(outputPath, archivePath);
-  console.log(`[${pageId}] archived previous → ${archivePath}`);
-}
-
-async function generatePage(
-  pageId: string,
-  globalStyle: string,
-  model: string,
-): Promise<void> {
-  const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
-  const tempPath = `${outputPath}.tmp`;
-  const { refs, body } = await readPagePrompt(pageId);
-
-  for (const refId of refs) {
-    const refPath = path.join(IMAGES_DIR, `${refId}.png`);
-    if (!(await fileExists(refPath))) {
-      throw new Error(`Reference image ${refId}.png not found at ${refPath}`);
-    }
-  }
-
-  type Part =
-    | { text: string }
-    | { inlineData: { mimeType: string; data: string } };
-
-  const parts: Part[] = [];
-  for (const refId of refs) {
-    const buf = await fs.readFile(path.join(IMAGES_DIR, `${refId}.png`));
-    parts.push({
-      inlineData: { mimeType: 'image/png', data: buf.toString('base64') },
-    });
-  }
-  parts.push({ text: buildPromptText(body, refs, globalStyle) });
-
-  console.log(
-    `[${pageId}] generating  (refs: ${refs.length === 0 ? 'none' : refs.join(', ')})`,
-  );
-
-  const response = await client.models.generateContent({
-    model,
-    contents: [{ role: 'user', parts }],
-    config: {
-      responseModalities: ['IMAGE'],
-      imageConfig: { aspectRatio: '9:16' },
-    },
-  });
-
-  const responseParts = response.candidates?.[0]?.content?.parts ?? [];
-  const imagePart = responseParts.find(
-    (p): p is { inlineData: { mimeType: string; data: string } } =>
-      'inlineData' in p &&
-      typeof (p as { inlineData?: { data?: unknown } }).inlineData?.data ===
-        'string',
-  );
-
-  if (!imagePart) {
-    throw new Error(
-      `No image in response for ${pageId}. First 500 chars: ${JSON.stringify(response).slice(0, 500)}`,
-    );
-  }
-
-  const imageBuffer = Buffer.from(imagePart.inlineData.data, 'base64');
-  const mime = imagePart.inlineData.mimeType ?? 'unknown';
-
-  // Atomic-ish write: temp first, archive existing, then rename temp to final.
-  // Crash mid-step leaves recoverable state instead of a corrupt PNG.
-  await fs.writeFile(tempPath, imageBuffer);
-  if (await fileExists(outputPath)) {
-    await archiveExisting(outputPath, pageId);
-  }
-  await fs.rename(tempPath, outputPath);
-
-  console.log(
-    `[${pageId}] -> ${outputPath} (${mime}, ${(imageBuffer.length / 1024).toFixed(1)} KB)`,
-  );
-}
-
-async function listPageIds(): Promise<string[]> {
-  const files = await fs.readdir(PROMPTS_DIR);
-  return files
-    .filter((f) => /^p\d+\.md$/.test(f))
-    .sort()
-    .map((f) => path.basename(f, '.md'));
-}
+import {
+  GLOBAL_STYLE_PATH,
+  IMAGES_DIR,
+  MODEL_ALIASES,
+  DEFAULT_MODEL,
+  fileExists,
+  generatePage,
+  listPageIds,
+} from './lib.js';
 
 function parseIntFlag(args: string[], name: string): number | null {
   const flag = args.find((a) => a.startsWith(`--${name}=`));
@@ -229,10 +40,7 @@ function parseSeqInput(raw: string): ConfirmResult | { error: string } {
   if (lower === 'next') return { kind: 'continue' };
   if (lower === 'stop') return { kind: 'stop' };
   if (lower === 'regenerate') return { kind: 'regenerate', model: 'flash2' };
-  if (
-    lower === 'regenerate with pro' ||
-    lower === 'regenerate pro'
-  ) {
+  if (lower === 'regenerate with pro' || lower === 'regenerate pro') {
     return { kind: 'regenerate', model: 'pro' };
   }
 
@@ -270,7 +78,6 @@ async function confirmContinue(pageId: string): Promise<ConfirmResult> {
 }
 
 async function main(): Promise<void> {
-  // Graceful shutdown on Ctrl+C — don't print a stack trace, just exit 0.
   process.on('SIGINT', () => {
     console.log('\nStopped by user (SIGINT).');
     process.exit(0);
@@ -287,7 +94,6 @@ async function main(): Promise<void> {
   const positional = args.filter((a) => !a.startsWith('--'));
   const explicitMode = start !== null || end !== null || positional.length > 0;
 
-  // Resolve model: --model=<alias|full-id> > GEMINI_IMAGE_MODEL env > default
   const modelArg = args
     .find((a) => a.startsWith('--model='))
     ?.split('=')[1];
@@ -329,10 +135,6 @@ async function main(): Promise<void> {
       continue;
     }
 
-    // No-args (catch-up mode) → skip already-generated pages so re-running
-    // safely fills in gaps without burning API credits on existing work.
-    // Explicit page targeting (range or positional) → always (re)generate;
-    // any existing image is archived before being replaced.
     const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
     if (!explicitMode && (await fileExists(outputPath))) {
       console.log(
@@ -341,24 +143,27 @@ async function main(): Promise<void> {
       continue;
     }
 
-    // Generate. In --seq mode, after each generation pause for user input.
-    // The user can switch models per-iteration via 'regenerate' (flash2)
-    // or 'regenerate with pro'. Resets to the run's --model arg at the
-    // start of each new page.
     let currentModel = model;
     while (true) {
-      await generatePage(pageId, globalStyle, currentModel);
+      console.log(`[${pageId}] generating  (model: ${currentModel})`);
+      const result = await generatePage(pageId, globalStyle, currentModel);
+      if (result.archivedPrev) {
+        console.log(`[${pageId}] archived previous → ${result.archivedPrev}`);
+      }
+      console.log(
+        `[${pageId}] -> ${outputPath} (${result.mime}, ${(result.bytes / 1024).toFixed(1)} KB)`,
+      );
 
       if (!seq) break;
 
-      const result = await confirmContinue(pageId);
-      if (result.kind === 'continue') break;
-      if (result.kind === 'stop') {
+      const decision = await confirmContinue(pageId);
+      if (decision.kind === 'continue') break;
+      if (decision.kind === 'stop') {
         console.log('Stopped by user.');
         process.exit(0);
       }
-      if (result.kind === 'regenerate') {
-        currentModel = MODEL_ALIASES[result.model] ?? result.model;
+      if (decision.kind === 'regenerate') {
+        currentModel = MODEL_ALIASES[decision.model] ?? decision.model;
         continue;
       }
     }

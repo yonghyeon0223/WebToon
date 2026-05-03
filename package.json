@@ -8,13 +8,16 @@
   },
   "scripts": {
     "generate": "tsx generate.ts",
-    "export": "tsx export.ts"
+    "export": "tsx export.ts",
+    "gui": "tsx server.ts"
   },
   "dependencies": {
     "@google/genai": "^1.0.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^22.10.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

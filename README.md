@@ -77,7 +77,31 @@ npm run generate -- --model=pro --start=5 --end=5
 npm run generate -- --model=pro p18 p27
 ```
 
-## View
+## GUI (web)
+
+```bash
+npm run gui
+```
+
+Opens a local server at **http://localhost:3000**. Browser-based workflow
+for picking a page, generating with flash2 / pro, and inspecting results.
+
+Layout:
+- **Top bar** — passage name + default model selector (flash2 / pro).
+- **Image stage** — current page's generated image (or "no image yet").
+- **Action buttons** — Regenerate with flash2 / Regenerate with pro.
+  If the image already exists, you'll get a confirm dialog before it's
+  archived.
+- **Archives** — collapsible thumbnails of every previous attempt for the
+  current page, click to open the original.
+- **Bottom strip** — every page p01–p107 as a clickable cell. Green
+  cells have generated images, gray cells don't. Click any cell to
+  load that page.
+
+The GUI uses the same lib.ts core as the CLI — generations write to the
+same `images/pages/` and archive the same way.
+
+## View (read-only)
 
 Open `passages/{id}/viewer.html` in a browser. Cuttoon (page-by-page)
 reader optimized for mobile. Navigate with the buttons, tap left/right
