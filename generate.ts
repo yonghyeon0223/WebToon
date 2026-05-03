@@ -89,16 +89,15 @@ ${feedback}
     refs.length === 0
       ? ''
       : `═══════════════════════════════════════════
-REFERENCE IMAGES — ID ↔ ATTACHMENT POSITION MAPPING
+REFERENCE IMAGES — ${refs.length} attached, in order
 ═══════════════════════════════════════════
 ${refs.length} reference image(s) are attached BEFORE this text in this
-exact order. When the prompt below mentions a ref by ID (e.g. "p01"),
-it means the image at the matching position:
+exact order. The page prompt's "## Refs" section below refers to them
+positionally — "First", "Second", "Third", etc. — matching the
+attachment order. Each entry includes a short description of what that
+image shows for extra clarity.
 
-${refs.map((id, i) => `  Attachment #${i + 1}  =  ${id}`).join('\n')}
-
-See the page prompt's "## Refs" section below for the role of each.
-General buckets:
+General buckets used in the ## Refs section:
   · Anchor → reproduce the named character / location EXACTLY.
   · New character or location → design FRESH from the prompt body, no
     inheritance from refs.
