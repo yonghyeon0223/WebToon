@@ -16,7 +16,8 @@ const MODEL_ALIASES: Record<string, string> = {
   flash2: 'gemini-3.1-flash-image-preview',
   pro: 'gemini-3-pro-image-preview',
 };
-const DEFAULT_MODEL = 'gemini-3-pro-image-preview';
+// Default to flash2 for cheaper iteration. Use --model=pro for finals.
+const DEFAULT_MODEL = 'gemini-3.1-flash-image-preview';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) {
@@ -250,31 +251,82 @@ function pageIdToNum(id: string): number {
   return parseInt(id.slice(1), 10);
 }
 
+type ModelAlias = 'flash2' | 'pro';
 type ConfirmResult =
   | { kind: 'continue' }
   | { kind: 'stop' }
-  | { kind: 'regenerate' }
-  | { kind: 'feedback'; text: string };
+  | { kind: 'regenerate'; model: ModelAlias }
+  | { kind: 'feedback'; model: ModelAlias; text: string };
 
-async function confirmContinue(justFinished: string): Promise<ConfirmResult> {
+function parseSeqInput(raw: string): ConfirmResult | { error: string } {
+  const trimmed = raw.trim();
+  if (trimmed === '') return { kind: 'continue' };
+  const lower = trimmed.toLowerCase();
+  if (lower === 'stop') return { kind: 'stop' };
+
+  // Short codes
+  if (lower === 'rf') return { kind: 'regenerate', model: 'flash2' };
+  if (lower === 'rp') return { kind: 'regenerate', model: 'pro' };
+  if (lower === 'ef' || lower.startsWith('ef ')) {
+    const text = trimmed.slice(2).trim();
+    if (!text) return { error: '"ef" needs feedback text. Example: ef vocab clip is too small' };
+    return { kind: 'feedback', model: 'flash2', text };
+  }
+  if (lower === 'ep' || lower.startsWith('ep ')) {
+    const text = trimmed.slice(2).trim();
+    if (!text) return { error: '"ep" needs feedback text. Example: ep vocab clip is too small' };
+    return { kind: 'feedback', model: 'pro', text };
+  }
+
+  // Verbose: regen[erate] [with] (flash2|pro)  /  edit [with] (flash2|pro) <text>
+  const tokens = trimmed.split(/\s+/);
+  let i = 0;
+  const verb = tokens[i++]!.toLowerCase();
+  if (tokens[i]?.toLowerCase() === 'with') i++;
+  const modelTok = tokens[i++]?.toLowerCase() ?? '';
+  const text = tokens.slice(i).join(' ');
+
+  let model: ModelAlias | null = null;
+  if (modelTok === 'flash2' || modelTok === 'flash' || modelTok === 'f' || modelTok === 'f2') model = 'flash2';
+  else if (modelTok === 'pro' || modelTok === 'p') model = 'pro';
+
+  if (verb === 'r' || verb === 'regen' || verb === 'regenerate') {
+    if (!model) return { error: `Regenerate needs a model. Try: rf, rp, regen flash2, regen pro` };
+    return { kind: 'regenerate', model };
+  }
+  if (verb === 'e' || verb === 'edit') {
+    if (!model) return { error: `Edit needs a model + feedback. Try: ef <text>, ep <text>, edit pro <feedback>` };
+    if (!text) return { error: 'Edit needs feedback text after the model.' };
+    return { kind: 'feedback', model, text };
+  }
+
+  return { error: `Unrecognized input "${trimmed}".` };
+}
+
+async function confirmContinue(pageId: string): Promise<ConfirmResult> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
-  const answer = await rl.question(
-    `\n✓ ${justFinished} done. Inspect, then choose:\n` +
-      `  [Enter]      → next page\n` +
-      `  stop         → exit\n` +
-      `  regenerate   → redo this page (no changes)\n` +
-      `  <anything>   → use as feedback (revises this page using the current image as ref)\n` +
-      `> `,
-  );
-  rl.close();
-  const trimmed = answer.trim();
-  if (trimmed === '') return { kind: 'continue' };
-  if (trimmed.toLowerCase() === 'stop') return { kind: 'stop' };
-  if (trimmed.toLowerCase() === 'regenerate') return { kind: 'regenerate' };
-  return { kind: 'feedback', text: trimmed };
+  try {
+    while (true) {
+      const answer = await rl.question(
+        `\n✓ ${pageId} done. Inspect, then:\n` +
+          `  [Enter]     next page                          stop         exit\n` +
+          `  rf          regenerate with flash2             rp           regenerate with pro\n` +
+          `  ef <text>   edit with flash2 + feedback        ep <text>    edit with pro + feedback\n` +
+          `> `,
+      );
+      const parsed = parseSeqInput(answer);
+      if ('error' in parsed) {
+        console.log(`! ${parsed.error}`);
+        continue;
+      }
+      return parsed;
+    }
+  } finally {
+    rl.close();
+  }
 }
 
 async function main(): Promise<void> {
@@ -349,14 +401,14 @@ async function main(): Promise<void> {
       continue;
     }
 
-    // Generate. In --seq mode, after each generation pause for user input:
-    //   Enter      → advance to next page
-    //   stop       → graceful exit
-    //   regenerate → redo this page (no extras)
-    //   <text>     → use as feedback; current image attached as ref
+    // Generate. In --seq mode, after each generation pause for user input.
+    // The user can change model per-iteration (regenerate / edit with
+    // flash2 or pro). Reset to the run's --model arg at the start of
+    // each new page.
+    let currentModel = model;
     let feedback: string | undefined = undefined;
     while (true) {
-      await generatePage(pageId, globalStyle, model, feedback);
+      await generatePage(pageId, globalStyle, currentModel, feedback);
       feedback = undefined;
 
       if (!seq) break;
@@ -367,8 +419,12 @@ async function main(): Promise<void> {
         console.log('Stopped by user.');
         process.exit(0);
       }
-      if (result.kind === 'regenerate') continue;
+      if (result.kind === 'regenerate') {
+        currentModel = MODEL_ALIASES[result.model] ?? result.model;
+        continue;
+      }
       if (result.kind === 'feedback') {
+        currentModel = MODEL_ALIASES[result.model] ?? result.model;
         feedback = result.text;
         continue;
       }

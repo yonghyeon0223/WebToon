@@ -34,24 +34,23 @@ Range flags take priority over positional page IDs when both are given.
 After each page is generated, the script pauses and prompts:
 
 ```
-✓ p05 done. Inspect, then choose:
-  [Enter]      → next page
-  stop         → exit
-  regenerate   → redo this page (no changes)
-  <anything>   → use as feedback (revises this page using the current image as ref)
+✓ p05 done. Inspect, then:
+  [Enter]     next page                          stop         exit
+  rf          regenerate with flash2             rp           regenerate with pro
+  ef <text>   edit with flash2 + feedback        ep <text>    edit with pro + feedback
 > 
 ```
 
 - **Enter** → advance to next page.
 - **`stop`** (or **Ctrl+C**) → graceful exit.
-- **`regenerate`** → retry the same page from scratch (same prompt, same refs). For when the output is just stochastically off.
-- **Anything else** → treated as feedback. Re-runs this page with the feedback string injected at the top of the prompt and the current image attached as the LAST reference, so the model has a "modify this image based on the feedback" task.
-
-Loops on the same page until you Enter, stop, or Ctrl+C. Each retry archives the previous attempt.
+- **`rf` / `rp`** → regenerate this page from scratch (same prompt, same refs) using flash2 or pro. For when the output is just stochastically off; per-page model swap is allowed.
+- **`ef <feedback>` / `ep <feedback>`** → edit this page using flash2 or pro: the feedback string is injected into the prompt and the current image is attached as the LAST reference, so the model treats it as "modify this image based on the feedback."
+- Verbose forms also work: `regen flash2`, `regen with pro`, `edit pro vocab clip too small`, etc.
+- Loops on the same page until you press Enter or stop. Each retry / edit archives the previous attempt.
 
 ### Model selection
 
-Default is **Pro** (`gemini-3-pro-image-preview`). Switch tier per run with `--model`:
+Default is **flash2** (`gemini-3.1-flash-image-preview`) — cheap iteration. Use `--model=pro` for the final pass per page. Switch tier per run with `--model`:
 
 ```bash
 npm run generate -- --model=flash         # Nano Banana (gemini-2.5-flash-image)
