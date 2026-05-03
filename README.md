@@ -76,8 +76,10 @@ UI:
 - Image fills the full viewport (no chrome).
 - Tap anywhere → next page.
 - Swipe left / right (mobile), arrow keys (desktop) to navigate.
-- A short gesture hint shows on first load and fades after 2.5s
-  (or on first interaction). Subsequent loads via URL hash skip it.
+- A gesture hint shows on first load (with the first page dimmed behind
+  it) and stays visible until the user makes their first navigation —
+  any tap, swipe, or arrow key clears it. Subsequent loads via URL
+  hash skip the hint entirely.
 - "끝" end-screen with a restart button after the last page.
 - URL hash preserves position across refresh.
 

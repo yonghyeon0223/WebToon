@@ -76,7 +76,7 @@ html,body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFon
 .stage img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;pointer-events:none;transition:opacity .15s ease;-webkit-user-drag:none}
 .stage img.fading{opacity:0}
 
-.hint{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:rgba(0,0,0,.55);color:rgba(255,255,255,.92);z-index:20;pointer-events:none;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);transition:opacity .8s ease-out;font-size:15px;letter-spacing:.04em;text-align:center;line-height:1.6}
+.hint{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:rgba(0,0,0,.35);color:rgba(255,255,255,.95);z-index:20;pointer-events:none;backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);transition:opacity .6s ease-out;font-size:16px;letter-spacing:.04em;text-align:center;line-height:1.6;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 .hint.gone{opacity:0}
 .hint .row{display:flex;align-items:center;gap:10px}
 .hint .icon{font-size:24px;opacity:.85}
@@ -159,15 +159,15 @@ function hideEnd() {
   endScreen.classList.remove('visible');
 }
 
-// First-load hint: fade out after 2.5s, or on first interaction
+// First-load hint: stays visible (with the first page dimmed behind it)
+// until the user makes their first navigation. No auto-fade timer.
 let hintCleared = false;
 function clearHint() {
   if (hintCleared) return;
   hintCleared = true;
   hint.classList.add('gone');
-  setTimeout(() => hint.remove(), 800);
+  setTimeout(() => hint.remove(), 600);
 }
-setTimeout(clearHint, 2500);
 
 // Tap image area → next page
 stage.addEventListener('click', () => {
