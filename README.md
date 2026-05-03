@@ -55,6 +55,12 @@ npm run generate -- --model=pro --start=5 --end=5
 npm run generate -- --model=pro p18 p27
 ```
 
+## View
+
+Open `passages/{id}/viewer.html` in a browser to read the generated pages
+in vertical-scroll webtoon format. Auto-detects which pages exist; new
+pages appear on refresh.
+
 ## Layout
 
 - `passages/{id}/prompts/_global_style.md` — canonical PIXAR × Mr. Men style brief, auto-injected into every prompt.
