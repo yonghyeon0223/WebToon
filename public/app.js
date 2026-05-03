@@ -7,7 +7,6 @@ const state = {
   model: 'flash2', // alias as it appears in the dropdown
 };
 
-const titleEl = document.getElementById('title');
 const passageEl = document.getElementById('passage');
 const modelSelect = document.getElementById('modelSelect');
 const imageStage = document.getElementById('imageStage');
@@ -50,7 +49,6 @@ async function fetchStatus() {
   state.model = fullModelToAlias(data.model);
   modelSelect.value = state.model;
   passageEl.textContent = data.passage;
-  titleEl.textContent = 'WebToon';
   renderPageStrip();
 }
 
@@ -120,8 +118,11 @@ async function loadPage(pageId) {
   }
 
   // Page info
-  const refs = pageData.refs.length === 0 ? '(no refs)' : `refs: ${pageData.refs.join(', ')}`;
-  pageInfo.innerHTML = `<span class="pid">${pageId}</span><span>${refs}</span>`;
+  const refs =
+    pageData.refs.length === 0
+      ? '(no refs)'
+      : `refs: ${pageData.refs.join(', ')}`;
+  pageInfo.innerHTML = `${pageId}<span class="refs">${refs}</span>`;
 
   // Actions
   actions.hidden = false;

@@ -7,37 +7,36 @@
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header>
-  <div class="title-block">
-    <h1 id="title">WebToon</h1>
-    <div class="passage" id="passage">—</div>
-  </div>
-  <div class="model-selector">
-    <label>Default model
-      <select id="modelSelect">
-        <option value="flash2">flash2 — cheap iteration</option>
-        <option value="pro">pro — final quality</option>
-      </select>
-    </label>
-  </div>
-</header>
 
 <main>
   <div class="image-stage" id="imageStage">
     <div class="empty">Pick a page from the strip below to start.</div>
   </div>
 
-  <div class="page-info" id="pageInfo"></div>
+  <aside class="controls">
+    <div class="control-group">
+      <div class="passage-info" id="passage">—</div>
+      <div class="page-info" id="pageInfo">No page selected</div>
+    </div>
 
-  <div class="actions" id="actions" hidden>
-    <button id="regenFlash" class="btn primary">Regenerate with flash2</button>
-    <button id="regenPro" class="btn">Regenerate with pro</button>
-  </div>
+    <div class="control-group">
+      <label class="field-label">Default model</label>
+      <select id="modelSelect">
+        <option value="flash2">flash2 — cheap iteration</option>
+        <option value="pro">pro — final quality</option>
+      </select>
+    </div>
 
-  <details class="archives-block" id="archivesBlock" hidden>
-    <summary><span id="archivesLabel">Archives</span></summary>
-    <div class="archives-grid" id="archivesGrid"></div>
-  </details>
+    <div class="control-group" id="actions" hidden>
+      <button id="regenFlash" class="btn primary">Regenerate with flash2</button>
+      <button id="regenPro" class="btn">Regenerate with pro</button>
+    </div>
+
+    <details class="control-group archives-block" id="archivesBlock" hidden>
+      <summary><span id="archivesLabel">Archives</span></summary>
+      <div class="archives-grid" id="archivesGrid"></div>
+    </details>
+  </aside>
 </main>
 
 <footer>
