@@ -57,9 +57,10 @@ npm run generate -- --model=pro p18 p27
 
 ## View
 
-Open `passages/{id}/viewer.html` in a browser to read the generated pages
-in vertical-scroll webtoon format. Auto-detects which pages exist; new
-pages appear on refresh.
+Open `passages/{id}/viewer.html` in a browser. Cuttoon (page-by-page)
+reader optimized for mobile. Navigate with the buttons, tap left/right
+edges of the image, swipe (mobile), or arrow keys (desktop). URL hash
+preserves position across refresh. Auto-detects which pages exist.
 
 ## Layout
 
