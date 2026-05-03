@@ -89,45 +89,39 @@ ${feedback}
     refs.length === 0
       ? ''
       : `═══════════════════════════════════════════
-⚠ CRITICAL — REFERENCE IMAGES ATTACHED (in order): ${refs.join(', ')}
+REFERENCE IMAGES ATTACHED (in order): ${refs.join(', ')}
 ═══════════════════════════════════════════
-The attached images are the VISUAL CONTRACT for this page. They are
-authoritative. Anything that appears in them must be reproduced EXACTLY
-in the new image — never reinterpreted, redesigned, or "improved."
+The attached images serve different purposes. Use them according to what
+the page prompt below explicitly says about each character / location:
 
-CHARACTER LIKENESS (highest priority):
-  • Match each named character's body shape, proportions, exact body
-    color, eye style, mitten hand style, foot/shoe style EXACTLY as
-    shown in the refs.
-  • Reproduce signature props (magnifying glass, slate + chalk, mortarboard
-    cap, leather notebook, brass balance scale, etc.) IDENTICALLY — same
-    shape, same color, same materials, same proportions to the body, same
-    placement (held in mitten / on cord around neck / etc.) as in the refs.
-  • A viewer flipping between a ref and this new page must see no redesign
-    of the character. Instant recognizability is the bar.
+1. CHARACTER & LOCATION ANCHORS (when the prompt body says "same as
+   Page N" for a named character or named location):
+   Find that specific character / location in the corresponding ref and
+   reproduce it EXACTLY — body shape, color, props, signature items,
+   architecture, palette. A viewer flipping between the ref and this
+   page must see the same person / place. Camera angle and composition
+   can change; identity must not.
 
-SETTING / LOCATION:
-  • Match architecture, palette, lighting temperature, signature elements
-    (door color, awning pattern, window shape, props in the scene).
-  • Camera angle and composition can change for the new beat, but the
-    setting itself must be recognizably the same place from the refs.
+2. NEW CHARACTERS / LOCATIONS (anyone or anywhere debuting on this page,
+   described inline with NO "same as Page N" mention):
+   Design FRESH using only the page prompt's description. Do NOT
+   inherit body shape, color, or features from any ref. A new cameo
+   should look distinctly different from Mr. Realistic, Mr. Logical, or
+   any prior character — different silhouette, different color, different
+   props. A new shop should look distinctly different from any other
+   shop in the book.
 
-PAGE FURNITURE (narration plates, speech bubbles, vocab clip parchment,
-lettering hand, drop shadow, paper texture, color palette of the typography):
-  • Reproduce the exact same visual treatment seen in the refs. Same
-    parchment color, same painterly imperfect edge style, same wobbly
-    bubble outline, same Korean lettering hand, same sepia ink tone.
-  • Do NOT redesign any of these elements. Same rendering family
-    throughout the book.
+3. VIBE / FURNITURE / STYLE REFS (refs not named in any "same as" clause):
+   These are attached for the BOOK'S VISUAL TONE — same illustration
+   medium, same Korean lettering hand, same narration plate / speech
+   bubble / vocab clip styling, same lighting palette, same level of
+   PIXAR craft. Match the TONE, but do NOT copy specific characters or
+   locations from these refs into this scene. They're tone anchors,
+   not entity anchors.
 
-THE PROMPT BELOW describes only the NEW BEAT for this page (the action,
-expression, text content that's different from the refs). The refs supply
-the EXISTING WORLD (who, where, how everything looks). Your job is to
-combine: existing world from refs + new beat from prompt.
-
-DO NOT redesign anything visible in the refs.
-DO NOT introduce visual elements not described in the prompt and not in
-the refs.
+DO NOT inherit visible elements from refs that the prompt body doesn't
+explicitly link to this scene.
+DO NOT introduce visual elements not described in the prompt body.
 DO NOT drift to a different art style than what the refs establish.
 
 `;

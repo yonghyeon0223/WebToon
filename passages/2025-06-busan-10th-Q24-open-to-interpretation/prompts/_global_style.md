@@ -17,6 +17,13 @@ Mr. Men identity: geometric body silhouettes (round / rectangle / oval),
 stick arms with white mitten hands, stubby legs with simple shoes, big
 dot-eye faces, soft hand-drawn black outlines, signature character props.
 
+EVERY human-like figure in the scene — named main characters, anonymous
+cameos, background fillers, crowd members, deep-background silhouettes —
+MUST be rendered in this Mr. Men style. NEVER photorealistic people,
+NEVER stylized humans with realistic proportions, NEVER cartoon humans
+with arms-and-legs anatomy. Even a tiny figure in the back of a crowd
+is a Mr. Men shape (small geometric body, mitten hands, dot eyes).
+
 PIXAR craft: subtle volumetric shading, soft ambient occlusion, real
 materials (brass, leather, fabric, wood, glass), warm cinematic golden
 lighting, polished studio finish.
