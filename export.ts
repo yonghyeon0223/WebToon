@@ -42,29 +42,59 @@ async function main(): Promise<void> {
   pdf.setSubject('Korean SAT mock-exam picture book — Open to Interpretation');
   pdf.setCreator('WebToon (https://github.com/yonghyeon0223/WebToon)');
 
-  for (const fname of pageFiles) {
-    const bytes = await fs.readFile(path.join(IMAGES_DIR, fname));
-    const image = await pdf.embedPng(bytes);
-    const page = pdf.addPage([PAGE_W, PAGE_H]);
+  function detectImageType(b: Buffer): 'png' | 'jpg' | 'unknown' {
+    if (b.length >= 4 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return 'png';
+    if (b.length >= 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return 'jpg';
+    return 'unknown';
+  }
 
-    // Fit image into page preserving aspect; center if any letterboxing.
-    const scale = Math.min(PAGE_W / image.width, PAGE_H / image.height);
-    const w = image.width * scale;
-    const h = image.height * scale;
-    page.drawImage(image, {
-      x: (PAGE_W - w) / 2,
-      y: (PAGE_H - h) / 2,
-      width: w,
-      height: h,
-    });
-    process.stdout.write(`  + ${fname.replace('.png', '')}\n`);
+  let added = 0;
+  for (const fname of pageFiles) {
+    const stem = fname.replace('.png', '');
+    const bytes = await fs.readFile(path.join(IMAGES_DIR, fname));
+    const type = detectImageType(bytes);
+
+    if (type === 'unknown') {
+      const head = bytes.subarray(0, 8).toString('hex');
+      console.warn(`  ! ${stem} — unknown image format (head: ${head}); skipping`);
+      continue;
+    }
+
+    try {
+      const image =
+        type === 'png'
+          ? await pdf.embedPng(bytes)
+          : await pdf.embedJpg(bytes);
+      const page = pdf.addPage([PAGE_W, PAGE_H]);
+      const scale = Math.min(PAGE_W / image.width, PAGE_H / image.height);
+      const w = image.width * scale;
+      const h = image.height * scale;
+      page.drawImage(image, {
+        x: (PAGE_W - w) / 2,
+        y: (PAGE_H - h) / 2,
+        width: w,
+        height: h,
+      });
+      added++;
+      process.stdout.write(
+        `  + ${stem}  (${type}, ${image.width}×${image.height})\n`,
+      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`  ! ${stem} — embed failed: ${msg}; skipping`);
+    }
+  }
+
+  if (added === 0) {
+    console.error('No pages embedded successfully.');
+    process.exit(1);
   }
 
   const pdfBytes = await pdf.save();
   await fs.writeFile(OUTPUT_PATH, pdfBytes);
 
   const sizeMB = (pdfBytes.length / 1024 / 1024).toFixed(1);
-  console.log(`\n✓ ${OUTPUT_PATH}  (${pageFiles.length} pages, ${sizeMB} MB)`);
+  console.log(`\n✓ ${OUTPUT_PATH}  (${added} pages, ${sizeMB} MB)`);
 }
 
 main().catch((err) => {

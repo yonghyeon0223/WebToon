@@ -198,6 +198,7 @@ async function generatePage(
   }
 
   const imageBuffer = Buffer.from(imagePart.inlineData.data, 'base64');
+  const mime = imagePart.inlineData.mimeType ?? 'unknown';
 
   // Atomic-ish write: temp first, archive existing, then rename temp to final.
   // Crash mid-step leaves recoverable state instead of a corrupt PNG.
@@ -208,7 +209,7 @@ async function generatePage(
   await fs.rename(tempPath, outputPath);
 
   console.log(
-    `[${pageId}] -> ${outputPath} (${(imageBuffer.length / 1024).toFixed(1)} KB)`,
+    `[${pageId}] -> ${outputPath} (${mime}, ${(imageBuffer.length / 1024).toFixed(1)} KB)`,
   );
 }
 
