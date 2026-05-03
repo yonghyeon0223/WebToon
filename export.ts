@@ -76,15 +76,10 @@ html,body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFon
 .stage img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;pointer-events:none;transition:opacity .15s ease;-webkit-user-drag:none}
 .stage img.fading{opacity:0}
 
-.bottombar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:24px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.45) 60%,rgba(0,0,0,0) 100%);z-index:10;pointer-events:none}
-.bottombar > *{pointer-events:auto}
-.nav-btn{flex-shrink:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);color:#f0e6d2;padding:9px 12px;font-size:13px;border-radius:7px;cursor:pointer;font-family:inherit;min-width:60px;transition:background .12s ease}
-.nav-btn:hover:not(:disabled){background:rgba(255,255,255,.16)}
-.nav-btn:active:not(:disabled){background:rgba(255,255,255,.24)}
-.nav-btn:disabled{opacity:.35;cursor:not-allowed}
-.progress-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:rgba(255,255,255,.22);border-radius:2px;outline:none;padding:0;margin:0;cursor:pointer}
-.progress-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#f0e6d2;cursor:pointer;border:none;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
-.progress-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#f0e6d2;cursor:pointer;border:none;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.hint{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:rgba(0,0,0,.55);color:rgba(255,255,255,.92);z-index:20;pointer-events:none;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);transition:opacity .8s ease-out;font-size:15px;letter-spacing:.04em;text-align:center;line-height:1.6}
+.hint.gone{opacity:0}
+.hint .row{display:flex;align-items:center;gap:10px}
+.hint .icon{font-size:24px;opacity:.85}
 
 .end-screen{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:30;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .end-screen.visible{display:flex}
@@ -101,10 +96,9 @@ html,body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFon
   <img id="img" alt="">
 </div>
 
-<div class="bottombar">
-  <button class="nav-btn" type="button" id="btnPrev">← 이전</button>
-  <input type="range" id="slider" class="progress-slider" min="1" max="1" value="1" aria-label="page slider">
-  <button class="nav-btn" type="button" id="btnNext">다음 →</button>
+<div class="hint" id="hint">
+  <div class="row"><span class="icon">👆</span><span>탭하면 다음 페이지</span></div>
+  <div class="row"><span class="icon">👈 👉</span><span>좌우로 스와이프</span></div>
 </div>
 
 <div class="end-screen" id="endScreen">
@@ -117,9 +111,7 @@ html,body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFon
 const PAGES = ${pagesJson};
 const stage = document.getElementById('stage');
 const img = document.getElementById('img');
-const slider = document.getElementById('slider');
-const btnPrev = document.getElementById('btnPrev');
-const btnNext = document.getElementById('btnNext');
+const hint = document.getElementById('hint');
 const endScreen = document.getElementById('endScreen');
 const restartBtn = document.getElementById('restartBtn');
 
@@ -138,9 +130,6 @@ function render() {
     img.alt = page.id;
     img.classList.remove('fading');
   }, 100);
-  slider.value = String(cursor + 1);
-  btnPrev.disabled = cursor === 0;
-  btnNext.disabled = false; // last-page next still works → opens end screen
   history.replaceState(null, '', '#' + page.id);
 }
 
@@ -170,18 +159,21 @@ function hideEnd() {
   endScreen.classList.remove('visible');
 }
 
+// First-load hint: fade out after 2.5s, or on first interaction
+let hintCleared = false;
+function clearHint() {
+  if (hintCleared) return;
+  hintCleared = true;
+  hint.classList.add('gone');
+  setTimeout(() => hint.remove(), 800);
+}
+setTimeout(clearHint, 2500);
+
 // Tap image area → next page
-stage.addEventListener('click', () => go(1));
-
-// Explicit nav buttons
-btnPrev.addEventListener('click', (e) => { e.stopPropagation(); go(-1); });
-btnNext.addEventListener('click', (e) => { e.stopPropagation(); go(1); });
-
-// Slider
-slider.addEventListener('input', (e) => {
-  jumpTo(parseInt(e.target.value, 10) - 1);
+stage.addEventListener('click', () => {
+  clearHint();
+  go(1);
 });
-slider.addEventListener('click', (e) => e.stopPropagation());
 
 // Keyboard
 document.addEventListener('keydown', (e) => {
@@ -189,9 +181,10 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Enter') hideEnd();
     return;
   }
-  if (e.key === 'ArrowLeft') go(-1);
+  if (e.key === 'ArrowLeft') { clearHint(); go(-1); }
   else if (e.key === 'ArrowRight' || e.key === ' ') {
     e.preventDefault();
+    clearHint();
     go(1);
   }
 });
@@ -219,6 +212,7 @@ stage.addEventListener('touchend', (e) => {
   // Only treat as swipe if it was an actual movement; otherwise the
   // click event will fire and handle the tap-to-next.
   if (touchMoved && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+    clearHint();
     if (dx > 0) go(-1);
     else go(1);
   }
@@ -233,10 +227,13 @@ restartBtn.addEventListener('click', () => {
 
 // Init
 if (PAGES.length) {
-  slider.max = String(PAGES.length);
   const hash = window.location.hash.replace('#', '');
   const found = PAGES.findIndex((p) => p.id === hash);
-  if (found >= 0) cursor = found;
+  if (found >= 0) {
+    cursor = found;
+    // Restored from hash → user is mid-read, no need to show hint again
+    clearHint();
+  }
   render();
 }
 </script>

@@ -73,11 +73,11 @@ at `passages/{id}/{id}.html`. All images embedded as base64 — one file,
 no external dependencies, opens in any modern browser.
 
 UI:
-- Image fills the full viewport (max size).
-- Bottom overlay (gradient fade) — ← 이전, slider, 다음 → buttons.
-- Tap anywhere on the image → next page.
+- Image fills the full viewport (no chrome).
+- Tap anywhere → next page.
 - Swipe left / right (mobile), arrow keys (desktop) to navigate.
-- Slider drag to jump to any page.
+- A short gesture hint shows on first load and fades after 2.5s
+  (or on first interaction). Subsequent loads via URL hash skip it.
 - "끝" end-screen with a restart button after the last page.
 - URL hash preserves position across refresh.
 
