@@ -120,8 +120,11 @@ VOCAB TAG (only on pages with a Vocab tag section)
 ═══════════════════════════════════════════
 SHAPE & POSITION — identical across every vocab tag page so the reader
 recognizes "another vocab card" instantly:
-  · Rectangular sepia parchment, slightly curled at one corner, painterly
-    imperfect edges, soft painted drop shadow.
+  · Rectangular sepia parchment, FLAT — NOT tilted, NOT skewed, NOT
+    rotated. Edges align squarely with the page edges (top edge of the
+    parchment parallel to the top edge of the page).
+  · Painterly imperfect edges, soft painted drop shadow. No corner
+    curl or dog-ear.
   · A small brass paper-clip pinning it to the page.
   · Always in the bottom-right corner of the page.
   · Sits ON TOP of the illustration; doesn't cover faces or key props.
@@ -136,6 +139,10 @@ weight / slant / stroke style across every vocab tag in the book.
 Vocab tag text is **smaller than narration body text** — sized like a
 small footnote / glossary card, NOT like body copy:
   · English word on top, Korean definition stacked directly below.
+  · BOTH the English word and the Korean definition are rendered in the
+    standard warm sepia-brown ink of the book. NO character signature
+    color, NO amber-gold, NO color tinting of any kind in the vocab
+    clip. The clip is a quiet glossary note, not an emphasis element.
   · English word: bold italic hand-lettering, ≥ 40 px glyph height
     (slightly larger than the Korean def below it, but smaller than
     narration body text).
