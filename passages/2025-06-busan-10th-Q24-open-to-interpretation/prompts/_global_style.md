@@ -130,13 +130,29 @@ recognizes "another vocab card" instantly:
   · Sits ON TOP of the illustration; doesn't cover faces or key props.
 
 SIZE — generous so the text is easy to read on a phone:
-  · Parchment width adapts to the Korean definition length: short defs
-    (≤ ~12 chars) use ~1/5 page width and wrap in 1 line; longer defs
-    use ~1/3 to ~1/2 page width so the Korean wraps in 2 clean lines
-    at a natural phrase boundary. NEVER squeeze the font to fit; ALWAYS
+  · Parchment width adapts to the Korean definition length so the
+    layout below stays clean. NEVER squeeze the font to fit; ALWAYS
     enlarge the parchment.
   · 2–3 entries stack vertically, parchment grows in height proportionally.
   · 1–3 entries stacked with a thin horizontal divider between entries.
+
+DEFINITION LAYOUT (CRITICAL — applies to every Korean definition that
+contains a period):
+  Korean definitions are written as "PRIMARY MEANING. SECONDARY
+  EXPLANATION." (e.g., "현실적인. 자기 생각이 실제 현실과 일치한다고 믿는
+  상태.").  Render the parchment text in this 3-tier stacked structure:
+
+    Line 1   English word
+    Line 2   Korean PRIMARY meaning (everything up to and including
+             the first period — e.g. "현실적인.") on ITS OWN line
+    Line 3+  Korean SECONDARY explanation (everything after the first
+             period) on subsequent line(s), wrapping naturally at
+             phrase boundaries if it doesn't fit one line
+
+  The primary meaning ALWAYS gets its own dedicated line (never shares
+  a line with secondary), and the secondary wraps freely below.
+  Definitions WITHOUT a period (e.g. "불가능한", "팬층, 응원하는 사람들
+  무리.") are short enough to stay on a single line below the English.
 
 TYPOGRAPHY — minimum floors on the 768 × 1376 canvas. Same font face /
 weight / slant / stroke style across every vocab tag in the book.
