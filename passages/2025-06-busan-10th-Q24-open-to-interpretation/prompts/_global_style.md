@@ -38,14 +38,17 @@ typography (font face, weight, slant, stroke style) for every narration
 plate and every dialogue bubble. The book must read as if one artist
 hand-lettered every line.
 
-FONT SIZE — strict consistency:
-  · ALL narration plates  →  same font size across every page
-  · ALL dialogue bubbles  →  same font size across every page
+FONT SIZE — pixel targets on the 768 × 1376 canvas (Nano Banana Pro at 1K
++ 9:16). Strict consistency across the whole book:
+  · Narration plate Korean text  →  ~55 px glyph height (every plate)
+  · Dialogue bubble Korean text  →  ~55 px glyph height (every bubble)
   · Narration size = dialogue size (no perceptible difference)
-  · Korean glyph cap-height ≥ 3.5% of page height (the floor — comfortable
-    on a phone at arm's length)
-  · If a long line doesn't fit, ENLARGE the plate / bubble; never shrink
-    the font.
+  · Inner thought / italicized   →  ~55 px (same as body, italic-light)
+  · SFX / kinetic shouting       →  ~80–110 px glyph height + bolder
+
+FLOOR — no Korean glyph below 50 px tall in narration or dialogue. If a
+long line doesn't fit at the ~55 px target, ENLARGE the plate / bubble;
+never shrink the font.
 
 LETTER SPACING — same tracking everywhere. Same line-height. Lines look
 hand-set by the same hand on every page.
@@ -61,13 +64,6 @@ tinting on Korean phrases. Color emphasis only for:
       shared by all three friends)
 Cameos (Mr. Worried, townspeople, angry character, baker, florist,
 confused listener) get no color emphasis.
-
-SECONDARY TYPE:
-  · SFX / kinetic shouting (e.g. "삐ㅡ익!", "심판 나가라!") — same Korean
-    lettering hand, but larger and bolder than body text, painted with
-    motion feel.
-  · Inner thought / italicized narration — same font and size as body text;
-    only the slant differentiates (italic-light, slightly thinner stroke).
 
 Text feels painted INTO the illustration, not a digital sticker.
 Render only what the page's Text section specifies. Never any markdown
@@ -94,13 +90,14 @@ SIZE — generous so the text is easy to read on a phone:
   · 2–3 entries stack vertically, parchment grows in height proportionally.
   · 1–3 entries stacked with a thin horizontal divider between entries.
 
-TYPOGRAPHY — strict consistency across every vocab tag in the book:
+TYPOGRAPHY — pixel targets on the 768 × 1376 canvas. Strict consistency
+across every vocab tag in the book:
   · English word on top, Korean definition stacked directly below.
-  · English word: bold italic hand-lettering, glyph cap-height ≥ 5% of
-    page height (NOTABLY LARGER than narration text).
-  · Korean definition: same hand-lettered face as narration plates, glyph
-    cap-height ≥ 3.5% of page height (matches narration body minimum,
-    fully readable).
+  · English word: bold italic hand-lettering, ~85 px glyph height
+    (notably larger than narration body).
+  · Korean definition: same hand-lettered face as narration plates,
+    ~60 px glyph height (slightly larger than narration body, fully
+    readable).
   · Same font face / weight / slant / stroke style across every vocab
     tag in the book.
   · NO separator between word and definition (no dash, em-dash, bullet,
