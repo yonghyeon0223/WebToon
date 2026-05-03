@@ -6,6 +6,9 @@ node_modules/
 # Generated images — regenerable artifacts
 passages/*/images/
 
+# Exported PDFs — regenerable from images
+passages/*/*.pdf
+
 # OS / IDE
 .DS_Store
 Thumbs.db
