@@ -68,24 +68,7 @@ function buildPromptText(
   pageBody: string,
   refs: string[],
   globalStyle: string,
-  feedback?: string,
 ): string {
-  const feedbackPreamble = !feedback
-    ? ''
-    : `═══════════════════════════════════════════
-⚠ FEEDBACK ITERATION — MODIFY THE LAST ATTACHED IMAGE
-═══════════════════════════════════════════
-The LAST image attached (after the listed reference images below) is the
-CURRENT generated attempt for this page. Modify it according to the
-feedback below; preserve everything that's already correct.
-
-Feedback from the user:
-${feedback}
-
-═══════════════════════════════════════════
-
-`;
-
   const refPreamble =
     refs.length === 0
       ? ''
@@ -111,7 +94,7 @@ not described in the prompt body. Do not drift to a different art style.
 
 `;
 
-  return `${feedbackPreamble}${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
+  return `${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
 }
 
 function archiveTimestamp(): string {
@@ -141,7 +124,6 @@ async function generatePage(
   pageId: string,
   globalStyle: string,
   model: string,
-  feedback?: string,
 ): Promise<void> {
   const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
   const tempPath = `${outputPath}.tmp`;
@@ -165,27 +147,10 @@ async function generatePage(
       inlineData: { mimeType: 'image/png', data: buf.toString('base64') },
     });
   }
+  parts.push({ text: buildPromptText(body, refs, globalStyle) });
 
-  // For feedback iterations, attach the current attempt as the LAST ref so
-  // the model knows what to modify. The text prompt's feedback section
-  // explicitly references "the LAST attached image".
-  const useCurrentAsRef = !!feedback && (await fileExists(outputPath));
-  if (useCurrentAsRef) {
-    const buf = await fs.readFile(outputPath);
-    parts.push({
-      inlineData: { mimeType: 'image/png', data: buf.toString('base64') },
-    });
-  }
-
-  parts.push({ text: buildPromptText(body, refs, globalStyle, feedback) });
-
-  const refSummary = [
-    ...refs,
-    ...(useCurrentAsRef ? ['(current attempt)'] : []),
-  ];
-  const tag = feedback ? `revising` : `generating`;
   console.log(
-    `[${pageId}] ${tag}  (refs: ${refSummary.length === 0 ? 'none' : refSummary.join(', ')})`,
+    `[${pageId}] generating  (refs: ${refs.length === 0 ? 'none' : refs.join(', ')})`,
   );
 
   const response = await client.models.generateContent({
@@ -255,51 +220,25 @@ type ModelAlias = 'flash2' | 'pro';
 type ConfirmResult =
   | { kind: 'continue' }
   | { kind: 'stop' }
-  | { kind: 'regenerate'; model: ModelAlias }
-  | { kind: 'feedback'; model: ModelAlias; text: string };
+  | { kind: 'regenerate'; model: ModelAlias };
 
 function parseSeqInput(raw: string): ConfirmResult | { error: string } {
   const trimmed = raw.trim();
-  if (trimmed === '') return { kind: 'continue' };
   const lower = trimmed.toLowerCase();
+
+  if (lower === 'next') return { kind: 'continue' };
   if (lower === 'stop') return { kind: 'stop' };
-
-  // Short codes
-  if (lower === 'rf') return { kind: 'regenerate', model: 'flash2' };
-  if (lower === 'rp') return { kind: 'regenerate', model: 'pro' };
-  if (lower === 'ef' || lower.startsWith('ef ')) {
-    const text = trimmed.slice(2).trim();
-    if (!text) return { error: '"ef" needs feedback text. Example: ef vocab clip is too small' };
-    return { kind: 'feedback', model: 'flash2', text };
-  }
-  if (lower === 'ep' || lower.startsWith('ep ')) {
-    const text = trimmed.slice(2).trim();
-    if (!text) return { error: '"ep" needs feedback text. Example: ep vocab clip is too small' };
-    return { kind: 'feedback', model: 'pro', text };
+  if (lower === 'regenerate') return { kind: 'regenerate', model: 'flash2' };
+  if (
+    lower === 'regenerate with pro' ||
+    lower === 'regenerate pro'
+  ) {
+    return { kind: 'regenerate', model: 'pro' };
   }
 
-  // Verbose: regen[erate] [with] (flash2|pro)  /  edit [with] (flash2|pro) <text>
-  const tokens = trimmed.split(/\s+/);
-  let i = 0;
-  const verb = tokens[i++]!.toLowerCase();
-  if (tokens[i]?.toLowerCase() === 'with') i++;
-  const modelTok = tokens[i++]?.toLowerCase() ?? '';
-  const text = tokens.slice(i).join(' ');
-
-  let model: ModelAlias | null = null;
-  if (modelTok === 'flash2' || modelTok === 'flash' || modelTok === 'f' || modelTok === 'f2') model = 'flash2';
-  else if (modelTok === 'pro' || modelTok === 'p') model = 'pro';
-
-  if (verb === 'r' || verb === 'regen' || verb === 'regenerate') {
-    if (!model) return { error: `Regenerate needs a model. Try: rf, rp, regen flash2, regen pro` };
-    return { kind: 'regenerate', model };
+  if (trimmed === '') {
+    return { error: 'Empty input — type "next" to advance, or another option.' };
   }
-  if (verb === 'e' || verb === 'edit') {
-    if (!model) return { error: `Edit needs a model + feedback. Try: ef <text>, ep <text>, edit pro <feedback>` };
-    if (!text) return { error: 'Edit needs feedback text after the model.' };
-    return { kind: 'feedback', model, text };
-  }
-
   return { error: `Unrecognized input "${trimmed}".` };
 }
 
@@ -311,10 +250,11 @@ async function confirmContinue(pageId: string): Promise<ConfirmResult> {
   try {
     while (true) {
       const answer = await rl.question(
-        `\n✓ ${pageId} done. Inspect, then:\n` +
-          `  [Enter]     next page                          stop         exit\n` +
-          `  rf          regenerate with flash2             rp           regenerate with pro\n` +
-          `  ef <text>   edit with flash2 + feedback        ep <text>    edit with pro + feedback\n` +
+        `\n✓ ${pageId} done. Inspect, then type one of:\n` +
+          `  next                       advance to the next page\n` +
+          `  stop                       exit\n` +
+          `  regenerate                 regenerate with flash2\n` +
+          `  regenerate with pro        regenerate with pro\n` +
           `> `,
       );
       const parsed = parseSeqInput(answer);
@@ -402,14 +342,12 @@ async function main(): Promise<void> {
     }
 
     // Generate. In --seq mode, after each generation pause for user input.
-    // The user can change model per-iteration (regenerate / edit with
-    // flash2 or pro). Reset to the run's --model arg at the start of
-    // each new page.
+    // The user can switch models per-iteration via 'regenerate' (flash2)
+    // or 'regenerate with pro'. Resets to the run's --model arg at the
+    // start of each new page.
     let currentModel = model;
-    let feedback: string | undefined = undefined;
     while (true) {
-      await generatePage(pageId, globalStyle, currentModel, feedback);
-      feedback = undefined;
+      await generatePage(pageId, globalStyle, currentModel);
 
       if (!seq) break;
 
@@ -421,11 +359,6 @@ async function main(): Promise<void> {
       }
       if (result.kind === 'regenerate') {
         currentModel = MODEL_ALIASES[result.model] ?? result.model;
-        continue;
-      }
-      if (result.kind === 'feedback') {
-        currentModel = MODEL_ALIASES[result.model] ?? result.model;
-        feedback = result.text;
         continue;
       }
     }

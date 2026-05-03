@@ -31,22 +31,25 @@ Range flags take priority over positional page IDs when both are given.
 
 ### --seq (interactive review)
 
-After each page is generated, the script pauses and prompts:
+After each page is generated, the script pauses and prompts. You must
+type one of the four commands explicitly — empty input is rejected and
+re-asks:
 
 ```
-✓ p05 done. Inspect, then:
-  [Enter]     next page                          stop         exit
-  rf          regenerate with flash2             rp           regenerate with pro
-  ef <text>   edit with flash2 + feedback        ep <text>    edit with pro + feedback
+✓ p05 done. Inspect, then type one of:
+  next                       advance to the next page
+  stop                       exit
+  regenerate                 regenerate with flash2
+  regenerate with pro        regenerate with pro
 > 
 ```
 
-- **Enter** → advance to next page.
+- **`next`** → advance to next page (Enter alone is rejected — must type "next").
 - **`stop`** (or **Ctrl+C**) → graceful exit.
-- **`rf` / `rp`** → regenerate this page from scratch (same prompt, same refs) using flash2 or pro. For when the output is just stochastically off; per-page model swap is allowed.
-- **`ef <feedback>` / `ep <feedback>`** → edit this page using flash2 or pro: the feedback string is injected into the prompt and the current image is attached as the LAST reference, so the model treats it as "modify this image based on the feedback."
-- Verbose forms also work: `regen flash2`, `regen with pro`, `edit pro vocab clip too small`, etc.
-- Loops on the same page until you press Enter or stop. Each retry / edit archives the previous attempt.
+- **`regenerate`** → regenerate this page from scratch with **flash2** (same prompt + same refs).
+- **`regenerate with pro`** → regenerate this page from scratch with **pro**.
+
+Loops on the same page until you type `next` or `stop`. Each retry archives the previous attempt to `images/pages/_archive/`.
 
 ### Model selection
 
