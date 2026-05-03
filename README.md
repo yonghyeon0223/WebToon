@@ -72,12 +72,13 @@ Bundles every generated page into a single self-contained interactive HTML
 at `passages/{id}/{id}.html`. All images embedded as base64 — one file,
 no external dependencies, opens in any modern browser.
 
-Naver Webtoon-style cuttoon UI:
-- Tap left/right edges, swipe, slider drag, or arrow keys to navigate
-- Tap center to toggle the top/bottom UI
-- Auto-hide UI after 3s of inactivity
-- Bottom slider lets you jump to any page
-- "끝" end-screen with a restart button on the last page
+UI:
+- Top bar (fixed) — title + N / total page indicator
+- Bottom bar (fixed) — ← 이전, slider, 다음 → buttons
+- Tap anywhere on the image → next page
+- Swipe left / right (mobile), arrow keys (desktop) to navigate
+- Slider drag to jump to any page
+- "끝" end-screen with a restart button after the last page
 - URL hash preserves position across refresh
 
 Send the file via KakaoTalk / Telegram / email and the recipient opens it
