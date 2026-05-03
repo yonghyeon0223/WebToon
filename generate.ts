@@ -67,7 +67,24 @@ function buildPromptText(
   pageBody: string,
   refs: string[],
   globalStyle: string,
+  feedback?: string,
 ): string {
+  const feedbackPreamble = !feedback
+    ? ''
+    : `═══════════════════════════════════════════
+⚠ FEEDBACK ITERATION — MODIFY THE LAST ATTACHED IMAGE
+═══════════════════════════════════════════
+The LAST image attached (after the listed reference images below) is the
+CURRENT generated attempt for this page. Modify it according to the
+feedback below; preserve everything that's already correct.
+
+Feedback from the user:
+${feedback}
+
+═══════════════════════════════════════════
+
+`;
+
   const refPreamble =
     refs.length === 0
       ? ''
@@ -115,7 +132,7 @@ DO NOT drift to a different art style than what the refs establish.
 
 `;
 
-  return `${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
+  return `${feedbackPreamble}${refPreamble}${pageBody.trim()}\n\n${globalStyle.trim()}\n`;
 }
 
 function archiveTimestamp(): string {
@@ -145,6 +162,7 @@ async function generatePage(
   pageId: string,
   globalStyle: string,
   model: string,
+  feedback?: string,
 ): Promise<void> {
   const outputPath = path.join(IMAGES_DIR, `${pageId}.png`);
   const tempPath = `${outputPath}.tmp`;
@@ -168,10 +186,27 @@ async function generatePage(
       inlineData: { mimeType: 'image/png', data: buf.toString('base64') },
     });
   }
-  parts.push({ text: buildPromptText(body, refs, globalStyle) });
 
+  // For feedback iterations, attach the current attempt as the LAST ref so
+  // the model knows what to modify. The text prompt's feedback section
+  // explicitly references "the LAST attached image".
+  const useCurrentAsRef = !!feedback && (await fileExists(outputPath));
+  if (useCurrentAsRef) {
+    const buf = await fs.readFile(outputPath);
+    parts.push({
+      inlineData: { mimeType: 'image/png', data: buf.toString('base64') },
+    });
+  }
+
+  parts.push({ text: buildPromptText(body, refs, globalStyle, feedback) });
+
+  const refSummary = [
+    ...refs,
+    ...(useCurrentAsRef ? ['(current attempt)'] : []),
+  ];
+  const tag = feedback ? `revising` : `generating`;
   console.log(
-    `[${pageId}] generating  (refs: ${refs.length === 0 ? 'none' : refs.join(', ')})`,
+    `[${pageId}] ${tag}  (refs: ${refSummary.length === 0 ? 'none' : refSummary.join(', ')})`,
   );
 
   const response = await client.models.generateContent({
@@ -237,19 +272,40 @@ function pageIdToNum(id: string): number {
   return parseInt(id.slice(1), 10);
 }
 
-async function confirmContinue(justFinished: string): Promise<boolean> {
+type ConfirmResult =
+  | { kind: 'continue' }
+  | { kind: 'stop' }
+  | { kind: 'regenerate' }
+  | { kind: 'feedback'; text: string };
+
+async function confirmContinue(justFinished: string): Promise<ConfirmResult> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
   const answer = await rl.question(
-    `\n✓ ${justFinished} done. Inspect, then press Enter to continue, or any other input to stop: `,
+    `\n✓ ${justFinished} done. Inspect, then choose:\n` +
+      `  [Enter]      → next page\n` +
+      `  stop         → exit\n` +
+      `  regenerate   → redo this page (no changes)\n` +
+      `  <anything>   → use as feedback (revises this page using the current image as ref)\n` +
+      `> `,
   );
   rl.close();
-  return answer.trim() === '';
+  const trimmed = answer.trim();
+  if (trimmed === '') return { kind: 'continue' };
+  if (trimmed.toLowerCase() === 'stop') return { kind: 'stop' };
+  if (trimmed.toLowerCase() === 'regenerate') return { kind: 'regenerate' };
+  return { kind: 'feedback', text: trimmed };
 }
 
 async function main(): Promise<void> {
+  // Graceful shutdown on Ctrl+C — don't print a stack trace, just exit 0.
+  process.on('SIGINT', () => {
+    console.log('\nStopped by user (SIGINT).');
+    process.exit(0);
+  });
+
   await fs.mkdir(IMAGES_DIR, { recursive: true });
 
   const globalStyle = await fs.readFile(GLOBAL_STYLE_PATH, 'utf-8');
@@ -296,7 +352,6 @@ async function main(): Promise<void> {
     targets = allPageIds;
   }
 
-  let lastGeneratedIdx = -1;
   for (let i = 0; i < targets.length; i++) {
     const pageId = targets[i]!;
     if (!allPageIds.includes(pageId)) {
@@ -316,18 +371,30 @@ async function main(): Promise<void> {
       continue;
     }
 
-    // --seq: between real generations, pause for user to inspect the
-    // previous page. Press Enter to continue, anything else to stop.
-    if (seq && lastGeneratedIdx >= 0) {
-      const ok = await confirmContinue(targets[lastGeneratedIdx]!);
-      if (!ok) {
+    // Generate. In --seq mode, after each generation pause for user input:
+    //   Enter      → advance to next page
+    //   stop       → graceful exit
+    //   regenerate → redo this page (no extras)
+    //   <text>     → use as feedback; current image attached as ref
+    let feedback: string | undefined = undefined;
+    while (true) {
+      await generatePage(pageId, globalStyle, model, feedback);
+      feedback = undefined;
+
+      if (!seq) break;
+
+      const result = await confirmContinue(pageId);
+      if (result.kind === 'continue') break;
+      if (result.kind === 'stop') {
         console.log('Stopped by user.');
         process.exit(0);
       }
+      if (result.kind === 'regenerate') continue;
+      if (result.kind === 'feedback') {
+        feedback = result.text;
+        continue;
+      }
     }
-
-    await generatePage(pageId, globalStyle, model);
-    lastGeneratedIdx = i;
   }
 }
 

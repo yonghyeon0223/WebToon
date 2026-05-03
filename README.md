@@ -19,7 +19,7 @@ npm run generate -- --start=5 --end=10    # p05 ~ p10 (both inclusive)
 npm run generate -- --start=15            # p15 to last
 npm run generate -- --end=5               # p01 ~ p05
 npm run generate -- p05 p07               # specific pages by id
-npm run generate -- --start=5 --end=10 --seq   # pause after each page; Enter = continue, anything else = stop
+npm run generate -- --start=5 --end=10 --seq   # pause after each page; see --seq prompt below
 ```
 
 ### Two modes
@@ -28,6 +28,26 @@ npm run generate -- --start=5 --end=10 --seq   # pause after each page; Enter = 
 - **Explicit targeting (`--start`/`--end` or positional)** — always (re)generates the targeted pages. Any existing image is **archived first** to `images/pages/_archive/pNN_YYYY-MM-DDTHHmmss.png` before being replaced. Nothing is ever silently destroyed.
 
 Range flags take priority over positional page IDs when both are given.
+
+### --seq (interactive review)
+
+After each page is generated, the script pauses and prompts:
+
+```
+✓ p05 done. Inspect, then choose:
+  [Enter]      → next page
+  stop         → exit
+  regenerate   → redo this page (no changes)
+  <anything>   → use as feedback (revises this page using the current image as ref)
+> 
+```
+
+- **Enter** → advance to next page.
+- **`stop`** (or **Ctrl+C**) → graceful exit.
+- **`regenerate`** → retry the same page from scratch (same prompt, same refs). For when the output is just stochastically off.
+- **Anything else** → treated as feedback. Re-runs this page with the feedback string injected at the top of the prompt and the current image attached as the LAST reference, so the model has a "modify this image based on the feedback" task.
+
+Loops on the same page until you Enter, stop, or Ctrl+C. Each retry archives the previous attempt.
 
 ### Model selection
 
