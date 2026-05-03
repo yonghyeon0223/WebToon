@@ -91,38 +91,17 @@ ${feedback}
       : `═══════════════════════════════════════════
 REFERENCE IMAGES ATTACHED (in order): ${refs.join(', ')}
 ═══════════════════════════════════════════
-The attached images serve different purposes. Use them according to what
-the page prompt below explicitly says about each character / location:
+See the page prompt's "## Refs" section below for the specific role of
+each ref. General buckets:
+  · Anchor → reproduce the named character / location EXACTLY.
+  · New character or location → design FRESH from the prompt body, no
+    inheritance from refs.
+  · Vibe / style ref → match book tone, lettering, page furniture; do
+    NOT copy specific characters or locations.
 
-1. CHARACTER & LOCATION ANCHORS (when the prompt body says "same as
-   Page N" for a named character or named location):
-   Find that specific character / location in the corresponding ref and
-   reproduce it EXACTLY — body shape, color, props, signature items,
-   architecture, palette. A viewer flipping between the ref and this
-   page must see the same person / place. Camera angle and composition
-   can change; identity must not.
-
-2. NEW CHARACTERS / LOCATIONS (anyone or anywhere debuting on this page,
-   described inline with NO "same as Page N" mention):
-   Design FRESH using only the page prompt's description. Do NOT
-   inherit body shape, color, or features from any ref. A new cameo
-   should look distinctly different from Mr. Realistic, Mr. Logical, or
-   any prior character — different silhouette, different color, different
-   props. A new shop should look distinctly different from any other
-   shop in the book.
-
-3. VIBE / FURNITURE / STYLE REFS (refs not named in any "same as" clause):
-   These are attached for the BOOK'S VISUAL TONE — same illustration
-   medium, same Korean lettering hand, same narration plate / speech
-   bubble / vocab clip styling, same lighting palette, same level of
-   PIXAR craft. Match the TONE, but do NOT copy specific characters or
-   locations from these refs into this scene. They're tone anchors,
-   not entity anchors.
-
-DO NOT inherit visible elements from refs that the prompt body doesn't
-explicitly link to this scene.
-DO NOT introduce visual elements not described in the prompt body.
-DO NOT drift to a different art style than what the refs establish.
+Do not inherit visible elements from refs unless the prompt body
+explicitly anchors them to this scene. Do not introduce visual elements
+not described in the prompt body. Do not drift to a different art style.
 
 `;
 
