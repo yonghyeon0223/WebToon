@@ -32,27 +32,46 @@ TEXT RENDERING
   interior, tail clearly attached to speaker's mouth.
 - Plates and bubbles sized generously; ~12–18% padding inside; bubble visual
   weight ≈ plate weight (don't shrink dialogue).
-- Korean glyph cap-height ≥ 3.5% of page height. Comfortable on a phone at
-  arm's length.
-- Same Korean lettering hand and tracking throughout — consistent across
-  plates, bubbles, and lines.
-- Wrap at natural phrase / clause boundaries. Don't split set phrases
-  ("차근차근", "어김없이"), compound words, or particles from nouns ("하늘은").
-  Resize the plate / bubble rather than forcing awkward breaks.
-- Korean text in plain warm sepia-brown. No character-color tinting on
-  Korean phrases.
-- Color emphasis only for:
+
+FONT — single hand-lettered Korean face throughout the book. Same exact
+typography (font face, weight, slant, stroke style) for every narration
+plate and every dialogue bubble. The book must read as if one artist
+hand-lettered every line.
+
+FONT SIZE — strict consistency:
+  · ALL narration plates  →  same font size across every page
+  · ALL dialogue bubbles  →  same font size across every page
+  · Narration size = dialogue size (no perceptible difference)
+  · Korean glyph cap-height ≥ 3.5% of page height (the floor — comfortable
+    on a phone at arm's length)
+  · If a long line doesn't fit, ENLARGE the plate / bubble; never shrink
+    the font.
+
+LETTER SPACING — same tracking everywhere. Same line-height. Lines look
+hand-set by the same hand on every page.
+
+LINE BREAKS — wrap at natural phrase / clause boundaries. Don't split set
+phrases ("차근차근", "어김없이"), compound words, or particles from nouns
+("하늘은"). Resize the plate / bubble rather than forcing awkward breaks.
+
+COLOR EMPHASIS — Korean text in plain warm sepia-brown; no character-color
+tinting on Korean phrases. Color emphasis only for:
     · Main character names → that character's signature color (plates AND bubbles)
     · English vocab words → relevant character's color (or amber-gold if
       shared by all three friends)
-- Cameos (Mr. Worried, townspeople, angry character, baker, florist,
-  confused listener) get no color emphasis.
-- Size hierarchy: narration ≈ dialogue (within 10%); vocab clip English
-  ≈1.2× its Korean def; SFX / shouting > body, larger and bolder;
-  inner thought ≈ body, italic-light.
-- Text feels painted INTO the illustration, not a digital sticker.
-- Render only what the page's Text section specifies. Never any markdown
-  characters (`*` `_` `` ` `` `#` etc.) even if they appear in the source.
+Cameos (Mr. Worried, townspeople, angry character, baker, florist,
+confused listener) get no color emphasis.
+
+SECONDARY TYPE:
+  · SFX / kinetic shouting (e.g. "삐ㅡ익!", "심판 나가라!") — same Korean
+    lettering hand, but larger and bolder than body text, painted with
+    motion feel.
+  · Inner thought / italicized narration — same font and size as body text;
+    only the slant differentiates (italic-light, slightly thinner stroke).
+
+Text feels painted INTO the illustration, not a digital sticker.
+Render only what the page's Text section specifies. Never any markdown
+characters (`*` `_` `` ` `` `#` etc.) even if they appear in the source.
 
 Main character palette:
     Mr. Realistic → terracotta-orange    Mr. Logical → cobalt-blue
@@ -62,14 +81,29 @@ Main character palette:
 ═══════════════════════════════════════════
 VOCAB TAG (only on pages with a Vocab tag section)
 ═══════════════════════════════════════════
-- Small sepia parchment clipped to the bottom-right corner with a brass
-  paper-clip; painterly imperfect edges, soft drop shadow.
-- English word on top — bold sepia italic hand-lettering.
-- Korean definition stacked directly below — smaller warm cream / sepia
-  hand-lettering (same family as narration, compressed).
-- No separator between word and definition (no dash, em-dash, bullet, comma).
-- 1–3 entries stacked with a thin horizontal divider between.
-- Sized ~1/5 page width for one entry; taller for more.
-- Sits ON TOP of the illustration; doesn't cover faces or key props.
-- Plain text only — no labels ("English:", "Korean:"), no quotes, no
-  markdown characters.
+SHAPE & POSITION — identical across every vocab tag page so the reader
+recognizes "another vocab card" instantly:
+  · Rectangular sepia parchment, slightly curled at one corner, painterly
+    imperfect edges, soft painted drop shadow.
+  · A small brass paper-clip pinning it to the page.
+  · Always in the bottom-right corner of the page.
+  · Sits ON TOP of the illustration; doesn't cover faces or key props.
+
+SIZE — generous so the text is easy to read on a phone:
+  · For one entry, parchment ≈ 1/4 of page width (LARGER than before).
+  · 2–3 entries stack vertically, parchment grows in height proportionally.
+  · 1–3 entries stacked with a thin horizontal divider between entries.
+
+TYPOGRAPHY — strict consistency across every vocab tag in the book:
+  · English word on top, Korean definition stacked directly below.
+  · English word: bold italic hand-lettering, glyph cap-height ≥ 5% of
+    page height (NOTABLY LARGER than narration text).
+  · Korean definition: same hand-lettered face as narration plates, glyph
+    cap-height ≥ 3.5% of page height (matches narration body minimum,
+    fully readable).
+  · Same font face / weight / slant / stroke style across every vocab
+    tag in the book.
+  · NO separator between word and definition (no dash, em-dash, bullet,
+    comma) — they read as a stacked label.
+  · Plain text only — no labels ("English:", "Korean:"), no quotes, no
+    markdown characters.
