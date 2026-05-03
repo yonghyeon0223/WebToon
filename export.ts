@@ -71,24 +71,20 @@ function buildHtml(pages: PageData[]): string {
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Segoe UI',sans-serif;height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
-body{display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
 
-.topbar{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:12px 16px;background:#0a0a0a;border-bottom:1px solid #1f1f1f}
-.topbar-title{flex:1;font-size:14px;font-weight:500;color:#f0e6d2;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.topbar-indicator{font-size:13px;color:#aaa;font-variant-numeric:tabular-nums;font-weight:500}
-
-.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#000;cursor:pointer;overflow:hidden;min-height:0}
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;cursor:pointer}
 .stage img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;pointer-events:none;transition:opacity .15s ease;-webkit-user-drag:none}
 .stage img.fading{opacity:0}
 
-.bottombar{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:10px 16px;background:#0a0a0a;border-top:1px solid #1f1f1f}
-.nav-btn{flex-shrink:0;background:rgba(255,255,255,.08);border:none;color:#f0e6d2;padding:10px 14px;font-size:14px;border-radius:8px;cursor:pointer;font-family:inherit;min-width:64px;transition:background .12s ease}
-.nav-btn:hover:not(:disabled){background:rgba(255,255,255,.14)}
-.nav-btn:active:not(:disabled){background:rgba(255,255,255,.22)}
-.nav-btn:disabled{opacity:.25;cursor:not-allowed}
-.progress-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:rgba(255,255,255,.16);border-radius:2px;outline:none;padding:0;margin:0;cursor:pointer}
-.progress-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#f0e6d2;cursor:pointer;border:none;box-shadow:0 0 0 1px rgba(0,0,0,.3)}
-.progress-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#f0e6d2;cursor:pointer;border:none;box-shadow:0 0 0 1px rgba(0,0,0,.3)}
+.bottombar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:24px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.45) 60%,rgba(0,0,0,0) 100%);z-index:10;pointer-events:none}
+.bottombar > *{pointer-events:auto}
+.nav-btn{flex-shrink:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);color:#f0e6d2;padding:9px 12px;font-size:13px;border-radius:7px;cursor:pointer;font-family:inherit;min-width:60px;transition:background .12s ease}
+.nav-btn:hover:not(:disabled){background:rgba(255,255,255,.16)}
+.nav-btn:active:not(:disabled){background:rgba(255,255,255,.24)}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed}
+.progress-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:rgba(255,255,255,.22);border-radius:2px;outline:none;padding:0;margin:0;cursor:pointer}
+.progress-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#f0e6d2;cursor:pointer;border:none;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.progress-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#f0e6d2;cursor:pointer;border:none;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
 
 .end-screen{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:30;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .end-screen.visible{display:flex}
@@ -100,11 +96,6 @@ body{display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);pad
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="topbar-title">${escapeHtml(TITLE)}</div>
-  <div class="topbar-indicator" id="indicator">— / —</div>
-</div>
 
 <div class="stage" id="stage">
   <img id="img" alt="">
@@ -126,7 +117,6 @@ body{display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);pad
 const PAGES = ${pagesJson};
 const stage = document.getElementById('stage');
 const img = document.getElementById('img');
-const indicator = document.getElementById('indicator');
 const slider = document.getElementById('slider');
 const btnPrev = document.getElementById('btnPrev');
 const btnNext = document.getElementById('btnNext');
@@ -148,7 +138,6 @@ function render() {
     img.alt = page.id;
     img.classList.remove('fading');
   }, 100);
-  indicator.textContent = (cursor + 1) + ' / ' + PAGES.length;
   slider.value = String(cursor + 1);
   btnPrev.disabled = cursor === 0;
   btnNext.disabled = false; // last-page next still works → opens end screen
