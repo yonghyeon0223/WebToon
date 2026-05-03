@@ -6,8 +6,10 @@ node_modules/
 # Generated images — regenerable artifacts
 passages/*/images/
 
-# Exported PDFs — regenerable from images
+# Exported snapshots — regenerable from images
 passages/*/*.pdf
+passages/*/*.html
+!passages/*/viewer.html
 
 # OS / IDE
 .DS_Store

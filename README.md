@@ -68,10 +68,20 @@ preserves position across refresh. Auto-detects which pages exist.
 npm run export
 ```
 
-Bundles every generated page into a single PDF at
-`passages/{id}/{id}.pdf`. Each image becomes one 9:16 page, fit and
-centered. Send the file via KakaoTalk / Telegram / email — opens on any
-device.
+Bundles every generated page into a single self-contained interactive HTML
+at `passages/{id}/{id}.html`. All images embedded as base64 — one file,
+no external dependencies, opens in any modern browser.
+
+Naver Webtoon-style cuttoon UI:
+- Tap left/right edges, swipe, slider drag, or arrow keys to navigate
+- Tap center to toggle the top/bottom UI
+- Auto-hide UI after 3s of inactivity
+- Bottom slider lets you jump to any page
+- "끝" end-screen with a restart button on the last page
+- URL hash preserves position across refresh
+
+Send the file via KakaoTalk / Telegram / email and the recipient opens it
+in their browser.
 
 ## Layout
 
