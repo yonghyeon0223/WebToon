@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, PDFName } from 'pdf-lib';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 
@@ -88,6 +88,51 @@ async function main(): Promise<void> {
   if (added === 0) {
     console.error('No pages embedded successfully.');
     process.exit(1);
+  }
+
+  // Add invisible link annotations: tap left half → previous page, tap right
+  // half → next page. Mirrors the cuttoon viewer's tap-zone navigation.
+  const fit = PDFName.of('Fit');
+  const pdfPages = pdf.getPages();
+  for (let i = 0; i < pdfPages.length; i++) {
+    const page = pdfPages[i]!;
+    const annots = [];
+
+    if (i > 0) {
+      annots.push(
+        pdf.context.obj({
+          Type: 'Annot',
+          Subtype: 'Link',
+          Rect: [0, 0, PAGE_W / 2, PAGE_H],
+          Border: [0, 0, 0],
+          A: {
+            Type: 'Action',
+            S: 'GoTo',
+            D: [pdfPages[i - 1]!.ref, fit],
+          },
+        }),
+      );
+    }
+
+    if (i < pdfPages.length - 1) {
+      annots.push(
+        pdf.context.obj({
+          Type: 'Annot',
+          Subtype: 'Link',
+          Rect: [PAGE_W / 2, 0, PAGE_W, PAGE_H],
+          Border: [0, 0, 0],
+          A: {
+            Type: 'Action',
+            S: 'GoTo',
+            D: [pdfPages[i + 1]!.ref, fit],
+          },
+        }),
+      );
+    }
+
+    if (annots.length > 0) {
+      page.node.set(PDFName.of('Annots'), pdf.context.obj(annots));
+    }
   }
 
   const pdfBytes = await pdf.save();
