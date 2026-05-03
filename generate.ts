@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
+import * as readline from 'node:readline/promises';
 
 const PASSAGE = '2025-06-busan-10th-Q24-open-to-interpretation';
 const PASSAGE_DIR = path.join('passages', PASSAGE);
@@ -235,6 +236,18 @@ function pageIdToNum(id: string): number {
   return parseInt(id.slice(1), 10);
 }
 
+async function confirmContinue(justFinished: string): Promise<boolean> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  const answer = await rl.question(
+    `\n✓ ${justFinished} done. Inspect, then press Enter to continue, or any other input to stop: `,
+  );
+  rl.close();
+  return answer.trim() === '';
+}
+
 async function main(): Promise<void> {
   await fs.mkdir(IMAGES_DIR, { recursive: true });
 
@@ -243,6 +256,7 @@ async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const start = parseIntFlag(args, 'start');
   const end = parseIntFlag(args, 'end');
+  const seq = args.includes('--seq');
   const positional = args.filter((a) => !a.startsWith('--'));
   const explicitMode = start !== null || end !== null || positional.length > 0;
 
@@ -281,7 +295,9 @@ async function main(): Promise<void> {
     targets = allPageIds;
   }
 
-  for (const pageId of targets) {
+  let lastGeneratedIdx = -1;
+  for (let i = 0; i < targets.length; i++) {
+    const pageId = targets[i]!;
     if (!allPageIds.includes(pageId)) {
       console.error(`Unknown page: ${pageId}`);
       continue;
@@ -299,7 +315,18 @@ async function main(): Promise<void> {
       continue;
     }
 
+    // --seq: between real generations, pause for user to inspect the
+    // previous page. Press Enter to continue, anything else to stop.
+    if (seq && lastGeneratedIdx >= 0) {
+      const ok = await confirmContinue(targets[lastGeneratedIdx]!);
+      if (!ok) {
+        console.log('Stopped by user.');
+        process.exit(0);
+      }
+    }
+
     await generatePage(pageId, globalStyle, model);
+    lastGeneratedIdx = i;
   }
 }
 

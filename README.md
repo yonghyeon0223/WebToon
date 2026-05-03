@@ -19,6 +19,7 @@ npm run generate -- --start=5 --end=10    # p05 ~ p10 (both inclusive)
 npm run generate -- --start=15            # p15 to last
 npm run generate -- --end=5               # p01 ~ p05
 npm run generate -- p05 p07               # specific pages by id
+npm run generate -- --start=5 --end=10 --seq   # pause after each page; Enter = continue, anything else = stop
 ```
 
 ### Two modes
