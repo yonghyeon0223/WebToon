@@ -130,7 +130,11 @@ recognizes "another vocab card" instantly:
   · Sits ON TOP of the illustration; doesn't cover faces or key props.
 
 SIZE — generous so the text is easy to read on a phone:
-  · For one entry, parchment ≈ 1/4 of page width (LARGER than before).
+  · Parchment width adapts to the Korean definition length: short defs
+    (≤ ~12 chars) use ~1/5 page width and wrap in 1 line; longer defs
+    use ~1/3 to ~1/2 page width so the Korean wraps in 2 clean lines
+    at a natural phrase boundary. NEVER squeeze the font to fit; ALWAYS
+    enlarge the parchment.
   · 2–3 entries stack vertically, parchment grows in height proportionally.
   · 1–3 entries stacked with a thin horizontal divider between entries.
 
