@@ -1,132 +1,75 @@
 ═══════════════════════════════════════════
-⚠ ASPECT RATIO — 9:16 VERTICAL PORTRAIT (NON-NEGOTIABLE)
+ASPECT RATIO
 ═══════════════════════════════════════════
-Output image MUST be 9:16 vertical mobile portrait orientation. The output
-is TALLER than wide. Width-to-height ratio is 9:16 (e.g. 1080×1920, 720×1280).
-NEVER landscape, NEVER square, NEVER any other ratio. Even if the scene
-contents (e.g. a wide cafe interior, a horizontal balance scale, a stadium)
-would naturally compose in landscape, force the composition into the 9:16
-portrait frame.
+9:16 vertical mobile portrait. Always taller than wide. Force the composition
+into 9:16 even when scene contents would naturally compose horizontally.
 
 ═══════════════════════════════════════════
-GLOBAL STYLE — PIXAR × MR. MEN PICTURE BOOK
+STYLE — PIXAR × MR. MEN PICTURE BOOK
 ═══════════════════════════════════════════
-Render as if PIXAR published a Roger Hargreaves Mr. Men book. Illustrated
-medium with PIXAR craft — NOT a 3D animation still.
+Render as if PIXAR published a Roger Hargreaves Mr. Men book — illustrated
+medium with PIXAR craft, not a 3D animation still.
 
-FULL-BLEED — illustration fills the entire 9:16 frame edge-to-edge. NO
-border, margin, frame, matte, or device mockup. Background extends to all
-four edges.
+Full-bleed: image fills the entire frame edge-to-edge. No border, margin,
+frame, matte, or device mockup.
 
-Mr. Men identity (preserve): geometric body silhouettes (round / rectangle /
-oval), stick arms with white mitten hands, stubby legs with simple shoes,
-big expressive faces with dot eyes, bold soft hand-drawn black outlines (NOT
-razor-sharp 3D), signature character props.
+Mr. Men identity: geometric body silhouettes (round / rectangle / oval),
+stick arms with white mitten hands, stubby legs with simple shoes, big
+dot-eye faces, soft hand-drawn black outlines, signature character props.
 
-PIXAR craft (add): subtle volumetric shading, soft ambient occlusion, real-
-feeling materials (brass, leather, fabric, wood, glass), warm cinematic
-lighting (PIXAR golden warmth), polished animation studio finish.
+PIXAR craft: subtle volumetric shading, soft ambient occlusion, real
+materials (brass, leather, fabric, wood, glass), warm cinematic golden
+lighting, polished studio finish.
 
-Avoid: pure flat 2D (crude), pure 3D CGI (loses identity), razor-sharp edges,
-photorealistic clutter, tacked-on motif icons.
+Avoid: pure flat 2D, pure 3D CGI, razor-sharp edges, photorealistic clutter.
 
 ═══════════════════════════════════════════
 TEXT RENDERING
 ═══════════════════════════════════════════
-- Narration → cream parchment plate with painterly imperfect edges, sepia-
-  brown hand-lettered Korean (NOT system font), subtle drop shadow.
-- Dialogue → round speech bubble with hand-drawn wobbly outline, soft white
+- Narration → cream parchment plate, painterly imperfect edges, sepia-brown
+  hand-lettered Korean (NOT system font), subtle drop shadow.
+- Dialogue → round speech bubble, hand-drawn wobbly outline, soft white
   interior, tail clearly attached to speaker's mouth.
-
-- Sizing rule (CRITICAL): both narration plates and speech bubbles are
-  sized GENEROUSLY around their text — comfortable internal padding
-  (roughly 12-18% of text dimensions on each side). Text NEVER touches or
-  crowds the edges of the plate / bubble. Bubble visual weight should be
-  comparable to narration plate visual weight in the same scene; do NOT
-  shrink dialogue bubbles smaller than the plates.
-
-- Font size (CRITICAL minimum): Korean glyph height (cap height) in
-  narration plates and speech bubbles is **at least ~3.5% of the page
-  height**. On the 9:16 mobile portrait page this is the floor — text
-  must always be comfortably readable on a phone at arm's length without
-  squinting. Larger is fine when the line allows; never go below.
-
-- Font size hierarchy across elements (relative, not absolute):
-    · Narration plate body text  ≈  speech bubble body text  (within 10%)
-    · Vocab clip English word  >  Korean definition below it (~1.2x)
-    · SFX / kinetic shouting text (e.g. "삐ㅡ익!", "심판 나가라!")  >  body
-      text — larger, bolder, hand-painted motion feel
-    · Inner-thought / italicized narration  ≈  body text (same size,
-      different style — italic-light, slightly thinner stroke)
-
-- Letter spacing (CRITICAL): consistent, even Korean tracking matching
-  natural Korean picture-book typography. Same letter spacing in narration
-  plates AND speech bubbles — they should look like the same lettering
-  hand applied throughout. Never cramped, never artificially expanded,
-  never inconsistent line-to-line.
-
-- Line breaks (CRITICAL): Korean text wraps at natural phrase / clause
-  boundaries. Do NOT split:
-    · set adverbial phrases (e.g. "차근차근", "어김없이", "한 번")
-    · compound words
-    · a particle from its noun (e.g. "하늘은", "사람도")
-    · a predicate from its preceding clause when it would dangle
-  Prefer breaks at commas, sentence boundaries, or major clause joints.
-  If text doesn't fit naturally, make the plate / bubble larger rather
-  than forcing an awkward break.
-
-- All Korean text in plain warm sepia-brown. NO character-color tinting on
+- Plates and bubbles sized generously; ~12–18% padding inside; bubble visual
+  weight ≈ plate weight (don't shrink dialogue).
+- Korean glyph cap-height ≥ 3.5% of page height. Comfortable on a phone at
+  arm's length.
+- Same Korean lettering hand and tracking throughout — consistent across
+  plates, bubbles, and lines.
+- Wrap at natural phrase / clause boundaries. Don't split set phrases
+  ("차근차근", "어김없이"), compound words, or particles from nouns ("하늘은").
+  Resize the plate / bubble rather than forcing awkward breaks.
+- Korean text in plain warm sepia-brown. No character-color tinting on
   Korean phrases.
-- Color emphasis ONLY for:
-  (a) Main character names painted in their signature color wherever they
-      appear (in narration plates AND dialogue bubbles).
-  (b) English vocabulary words in dialogue or narration painted in the
-      relevant main character's color (or warm amber-gold if shared by all
-      three friends — Realistic + Logical + Rational).
-- Cameo characters (Mr. Worried, anonymous townspeople, angry character,
-  baker, florist, confused listener, etc.) get NO color emphasis on their
-  names or words.
-- Main character palette:
-    Mr. Realistic → terracotta-orange
-    Mr. Logical   → cobalt-blue
-    Mr. Rational  → cool steel-gray
-    Mr. Red       → vermilion
-    Mr. Blue      → royal blue
-    Mr. Bias      → aubergine-purple
-- All text feels PAINTED INTO the illustration, not a digital sticker.
-- NO text other than what the page's "Text" section specifies.
+- Color emphasis only for:
+    · Main character names → that character's signature color (plates AND bubbles)
+    · English vocab words → relevant character's color (or amber-gold if
+      shared by all three friends)
+- Cameos (Mr. Worried, townspeople, angry character, baker, florist,
+  confused listener) get no color emphasis.
+- Size hierarchy: narration ≈ dialogue (within 10%); vocab clip English
+  ≈1.2× its Korean def; SFX / shouting > body, larger and bolder;
+  inner thought ≈ body, italic-light.
+- Text feels painted INTO the illustration, not a digital sticker.
+- Render only what the page's Text section specifies. Never any markdown
+  characters (`*` `_` `` ` `` `#` etc.) even if they appear in the source.
+
+Main character palette:
+    Mr. Realistic → terracotta-orange    Mr. Logical → cobalt-blue
+    Mr. Rational  → cool steel-gray      Mr. Red     → vermilion
+    Mr. Blue      → royal blue           Mr. Bias    → aubergine-purple
 
 ═══════════════════════════════════════════
-VOCAB TAG (only when the page has a "Vocab tag" section)
+VOCAB TAG (only on pages with a Vocab tag section)
 ═══════════════════════════════════════════
-A small parchment glossary clipped to the bottom-right corner of the page.
-Same shape and placement every time so it reads as "the vocab corner" of
-the book.
-
-Visual:
-- Small rectangular sepia parchment, ~1/5 of page width for one entry,
-  proportionally taller for 2–3 entries. Slightly curled at one corner.
-  Painterly imperfect edges. Soft painted drop shadow.
-- A small brass paper-clip or pin attaching it to the page, as if clipped
-  on top of the illustration.
-- The English word on the top line in bold sepia italic hand-lettering
-  (slightly larger than the definition).
-- The Korean definition stacked directly below in smaller cream / warm
-  sepia hand-lettering (same family as narration plates, compressed).
-- NO separator between the English word and the Korean definition — no
-  em-dash, no dash, no bullet, no comma. Just the English word on top, the
-  Korean definition on the line(s) below. They read as a stacked label, NOT
-  a dictionary entry with a separator.
-- For multiple entries (1–3 words), stack vertically with a thin horizontal
-  divider line between entries. Each entry follows the same format.
-- The tag sits ON TOP of the illustration in the bottom-right corner, NOT
-  inside any narration plate or speech bubble. It must not cover key
-  character faces or important props.
-
-⚠ CRITICAL — render ONLY the plain text of the word and definition.
-DO NOT paint any markdown syntax (asterisks `*`, underscores `_`, backticks,
-hash marks, brackets) onto the parchment, even if such characters appear in
-the prompt content. Markdown is metadata for emphasis intent, never literal
-glyphs. The parchment shows two clean strings: the English word, and the
-Korean definition. Nothing else. No labels (don't paint "English:" or
-"Korean:"), no quotes, no asterisks.
+- Small sepia parchment clipped to the bottom-right corner with a brass
+  paper-clip; painterly imperfect edges, soft drop shadow.
+- English word on top — bold sepia italic hand-lettering.
+- Korean definition stacked directly below — smaller warm cream / sepia
+  hand-lettering (same family as narration, compressed).
+- No separator between word and definition (no dash, em-dash, bullet, comma).
+- 1–3 entries stacked with a thin horizontal divider between.
+- Sized ~1/5 page width for one entry; taller for more.
+- Sits ON TOP of the illustration; doesn't cover faces or key props.
+- Plain text only — no labels ("English:", "Korean:"), no quotes, no
+  markdown characters.
