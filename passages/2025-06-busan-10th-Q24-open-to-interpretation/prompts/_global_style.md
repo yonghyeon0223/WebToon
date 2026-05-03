@@ -39,13 +39,13 @@ plate and every dialogue bubble. The book must read as if one artist
 hand-lettered every line.
 
 FONT SIZE — minimum floors for accessibility on the 768 × 1376 canvas
-(Nano Banana Pro at 1K + 9:16). Sizes can vary naturally with the
-scene's energy (quiet moment vs shout) — that's fine. The minimums
-below are NON-NEGOTIABLE; text never goes smaller than these floors:
+(Nano Banana Pro at 1K + 9:16). Sizes vary naturally with scene energy
+(quiet moment vs shout) — that's fine. The minimums below are
+NON-NEGOTIABLE; text never goes smaller than these floors:
 
-  · Narration plate Korean text  →  ≥ 50 px glyph height
-  · Dialogue bubble Korean text  →  ≥ 50 px glyph height
-  · Inner thought / italicized   →  ≥ 50 px
+  · Narration plate Korean text  →  ≥ 40 px glyph height
+  · Dialogue bubble Korean text  →  ≥ 40 px glyph height
+  · Inner thought / italicized   →  ≥ 40 px
   · SFX / kinetic shouting       →  visibly larger + bolder than body,
                                     no upper bound
 
@@ -94,12 +94,15 @@ SIZE — generous so the text is easy to read on a phone:
   · 1–3 entries stacked with a thin horizontal divider between entries.
 
 TYPOGRAPHY — minimum floors on the 768 × 1376 canvas. Same font face /
-weight / slant / stroke style across every vocab tag in the book:
+weight / slant / stroke style across every vocab tag in the book.
+Vocab tag text is **smaller than narration body text** — sized like a
+small footnote / glossary card, NOT like body copy:
   · English word on top, Korean definition stacked directly below.
-  · English word: bold italic hand-lettering, ≥ 70 px glyph height
-    (visibly larger than narration body).
+  · English word: bold italic hand-lettering, ≥ 40 px glyph height
+    (slightly larger than the Korean def below it, but smaller than
+    narration body text).
   · Korean definition: same hand-lettered face as narration plates,
-    ≥ 50 px glyph height (matches narration floor, fully readable).
+    ≥ 32 px glyph height (small but fully readable).
   · NO separator between word and definition (no dash, em-dash, bullet,
     comma) — they read as a stacked label.
   · Plain text only — no labels ("English:", "Korean:"), no quotes, no
